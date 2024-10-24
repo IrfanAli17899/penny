@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
 
-@Module({})
-export class WebhookModule {}
+@Module({
+    imports: [],
+})
+export class WebhookModule { }

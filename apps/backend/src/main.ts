@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, RequestMethod } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -13,18 +13,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
 
-  app.setGlobalPrefix(globalPrefix, {
-    exclude: [
-      { path: 'webhooks', method: RequestMethod.ALL },
-      { path: 'webhooks/(.*)', method: RequestMethod.ALL }
-    ]
-  });
-  app.enableVersioning();
   const port = process.env.PORT || 3000;
 
   //add SwaggerModule on bootstrap()
-  const config = new DocumentBuilder().setTitle('API Documentation')
-  .setVersion('1.0').build();
+  const config = new DocumentBuilder().setTitle('API Documentation').setVersion('1.0').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
   //end
