@@ -21,6 +21,16 @@
           "buildTarget": "backend:build:production"
         }
       }
+    },
+    "build": {
+      "options": {
+        "transformers":[{
+          "name": "@nestjs/swagger/plugin",
+            "options": {
+              "introspectComments": true
+            }
+        }]
+      }
     }
   }
 }
