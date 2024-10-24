@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './v1/auth/auth.module';
 import { RouterModule } from '@nestjs/core';
+import { UserModule } from './v1/user/user.module';
+import { TodoModule } from './v1/todo/todo.module';
 
 @Module({
     imports: [
@@ -20,6 +22,8 @@ import { RouterModule } from '@nestjs/core';
                     },
                 ],
             }]),
+        UserModule,
+        TodoModule,
     ]
 })
 export class ApiModule { }
