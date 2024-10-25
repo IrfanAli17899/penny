@@ -1,8 +1,8 @@
 // src/todo/todo.schema.ts
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument } from 'mongoose';
-import { User } from '../../user/entities/user.entity';
+import mongoose, { Document, HydratedDocument } from 'mongoose';
+import { UserDocument } from '../../user/entities/user.entity';
 
 export type TodoDocument = HydratedDocument<Todo>;
 
@@ -17,8 +17,8 @@ export class Todo extends Document {
   @Prop({ default: false })
   completed: boolean;
 
-  @Prop({ type: User }) // Reference to the User model
-  user: User;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }) // Reference to the User model
+  user: UserDocument | string;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

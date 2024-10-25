@@ -1,6 +1,7 @@
 import { Reflector } from '@nestjs/core';
 import { AuthService } from '../modules/api/v1/auth/auth.service';
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, UseGuards, SetMetadata } from '@nestjs/common';
+import { ErrorMessage } from '../constants/error-message.constant';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -15,7 +16,7 @@ export class AuthGuard implements CanActivate {
         const refreshToken = request.cookies.refreshToken;
 
         if (!accessToken) {
-            throw new UnauthorizedException('Access token is missing');
+            throw new UnauthorizedException(ErrorMessage.ACCESS_TOKEN_NOT_FOUND);
         }
 
         const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler()) || [];
@@ -44,15 +45,16 @@ export class AuthGuard implements CanActivate {
                     request.user = this.authService.verifyToken(newTokens.accessToken);
                     return this.hasRequiredRoles(request.user.roles, requiredRoles);
                 } catch (refreshError) {
-                    throw new UnauthorizedException('Invalid refresh token or unable to refresh');
+                    throw new UnauthorizedException(ErrorMessage.INVALID_REFRESH_TOKEN);
                 }
             }
-            throw new UnauthorizedException('Invalid access token');
+            throw new UnauthorizedException(ErrorMessage.INVALID_ACCESS_TOKEN);
         }
     }
     private hasRequiredRoles(userRoles: string[], requiredRoles: string[]): boolean {
         if (requiredRoles.length === 0) return true; // No roles required, access granted
-        return requiredRoles.some(role => userRoles.includes(role)); // Check if user has any of the required roles
+        const isAllowed = requiredRoles.some(role => userRoles.includes(role)); // Check if user has any of the required roles
+        if (!isAllowed) throw new UnauthorizedException(ErrorMessage.NOT_ALLOWED);
     }
 }
 

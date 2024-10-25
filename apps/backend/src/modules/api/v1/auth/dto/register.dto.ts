@@ -8,7 +8,7 @@ export class RegisterDto {
     @JoiSchema(joi.string().required())
     username: string;
     
-    @JoiSchema(joi.string().required())
+    @JoiSchema(joi.string().email().required())
     email: string;
 
     @JoiSchema(joi.string().required())

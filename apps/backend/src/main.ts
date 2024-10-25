@@ -7,13 +7,19 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import cookieParser from 'cookie-parser';
+
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './filters/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
 
   const port = process.env.PORT || 3000;
+
+  app.use(cookieParser());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   //add SwaggerModule on bootstrap()
   const config = new DocumentBuilder().setTitle('API Documentation').setVersion('1.0').build();

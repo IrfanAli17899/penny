@@ -4,6 +4,9 @@ import { ConfigService as EnvService } from '@nestjs/config';
 @Injectable()
 export class ConfigService {
     constructor(private envsService: EnvService) { }
+
+    readonly ACCESS_TOKEN_EXPIRATION = this.envsService.get('ACCESS_TOKEN_EXPIRATION') || '1h';
+    readonly REFRESH_TOKEN_EXPIRATION = this.envsService.get('REFRESH_TOKEN_EXPIRATION') || '8h';
     
     readonly NODE_ENV = this.envsService.get('NODE_ENV');
 

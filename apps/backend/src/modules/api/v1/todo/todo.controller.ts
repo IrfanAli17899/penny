@@ -2,35 +2,42 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { User } from '../../../../decorators/user.decorator';
-import { UserDocument } from '../user/entities/user.entity';
+import { RequestUser, ReqUser } from '../../../../decorators/req-user.decorator';
 import { AuthedOnly } from '../../../../guards/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Todo')
 @Controller()
 export class TodoController {
   constructor(private readonly todoService: TodoService) { }
 
   @Post()
   @AuthedOnly()
-  createTodo(@Body() createTodoDto: CreateTodoDto, @User() user: UserDocument) {
+  createTodo(@Body() createTodoDto: CreateTodoDto, @ReqUser() user: RequestUser) {
     return this.todoService.createTodo(createTodoDto, user);
   }
 
   @Get()
   @AuthedOnly()
-  getTodosByUser() {
-    return this.todoService.getTodosByUser(null);
+  getTodosByUser(@ReqUser() user: RequestUser) {
+    return this.todoService.getTodosByUser(user);
+  }
+
+  @Get(":id")
+  @AuthedOnly()
+  getTodoDetail(@Param("id") _id: string, @ReqUser() user: RequestUser) {
+    return this.todoService.getTodoDetailById(_id, user);
   }
 
   @Patch(':id')
   @AuthedOnly()
-  updateTodo(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto, @User() user: UserDocument) {
-    return this.todoService.updateTodo(id, updateTodoDto, user);
+  updateTodo(@Param('id') _id: string, @Body() updateTodoDto: UpdateTodoDto, @ReqUser() user: RequestUser) {
+    return this.todoService.updateTodo(_id, updateTodoDto, user);
   }
 
   @Delete(':id')
   @AuthedOnly()
-  deleteTodo(@Param('id') id: string, @User() user: UserDocument) {
-    return this.todoService.deleteTodo(id, user);
+  deleteTodo(@Param('id') _id: string, @ReqUser() user: RequestUser) {
+    return this.todoService.deleteTodo(_id, user);
   }
 }

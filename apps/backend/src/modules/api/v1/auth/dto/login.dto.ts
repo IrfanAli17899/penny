@@ -5,7 +5,7 @@ import * as joi from 'joi';
   allowUnknown: false,
 })
 export class LoginDto {
-  @JoiSchema(joi.string().required())
+  @JoiSchema(joi.string().email().required())
   email: string;
 
   @JoiSchema(joi.string().required())

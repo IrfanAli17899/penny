@@ -4,7 +4,11 @@ import { Response } from 'express';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ConfigService } from '../../../../config/config.service';
+import { AuthedOnly } from '../../../../guards/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { SuccessMessage } from '../../../../constants/success-message.constant copy';
 
+@ApiTags('Auth')
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService, private readonly configService: ConfigService) { }
@@ -13,21 +17,23 @@ export class AuthController {
   async register(@Body() body: RegisterDto, @Res({ passthrough: true }) response: Response) {
     const { accessToken, refreshToken } = await this.authService.register(body);
     this.setTokensInResponse(accessToken, refreshToken, response);
-    return { message: 'Registered successfully' };
+    return { message: SuccessMessage.REGISTERED_SUCCESSFULLY };
   }
 
   @Post('login')
   async login(@Body() body: LoginDto, @Res({ passthrough: true }) response: Response) {
     const { accessToken, refreshToken } = await this.authService.login(body);
     this.setTokensInResponse(accessToken, refreshToken, response);
-    return { message: 'Logged in successfully' };
+    return { message: SuccessMessage.LOGGED_IN_SUCCESSFULLY };
   }
 
   @Delete('logout')
-  async logout(@Req() request: Request) {
+  @AuthedOnly()
+  async logout(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
     const userId = request.user.id;
     await this.authService.invalidateRefreshToken(userId);
-    return { message: 'User logged out successfully' };
+    this.clearTokensInResponse(response)
+    return { message: SuccessMessage.LOGGED_OUT_SUCCESSFULLY };
   }
 
   setTokensInResponse(accessToken: string, refreshToken: string, response: Response) {
@@ -39,5 +45,10 @@ export class AuthController {
       httpOnly: true,
       secure: this.configService.NODE_ENV === 'production',
     });
+  }
+
+  clearTokensInResponse(response: Response) {
+    response.clearCookie('accessToken');
+    response.clearCookie('refreshToken');
   }
 }

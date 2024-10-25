@@ -12,5 +12,5 @@ export class CreateTodoDto {
   description: string;
 
   @JoiSchema(joi.boolean().required())
-  complete: boolean;
+  completed: boolean;
 }
