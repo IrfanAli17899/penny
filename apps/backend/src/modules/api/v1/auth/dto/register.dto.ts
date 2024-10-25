@@ -4,7 +4,7 @@ import * as joi from 'joi';
 @JoiSchemaOptions({
     allowUnknown: false,
 })
-export class SignupDto {
+export class RegisterDto {
     @JoiSchema(joi.string().required())
     username: string;
     
