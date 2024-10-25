@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { ApiModule } from './modules/api/api.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
 import { ConfigModule } from './config/config.module';
-import { UserModule } from './api/v1/user/user.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { UserModule } from './api/v1/user/user.module';
     JoiPipeModule,
     ApiModule,
     WebhookModule,
-    UserModule
+    DatabaseModule,
   ],
   controllers: [AppController],
 })
