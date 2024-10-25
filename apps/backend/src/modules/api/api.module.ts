@@ -18,6 +18,14 @@ import { TodoModule } from './v1/todo/todo.module';
                                 path: 'auth',
                                 module: AuthModule,
                             },
+                            {
+                                path: 'user',
+                                module: UserModule,
+                            },
+                            {
+                                path: 'todo',
+                                module: TodoModule,
+                            },
                         ],
                     },
                 ],
