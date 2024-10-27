@@ -4,7 +4,14 @@ on:
   push:
     branches:
       - main
-  pull_request:
+      - dev
+      - stg
+  workflow_dispatch:
+    inputs:
+      buildType:
+        description: 'Build type (all, affected, or project names)'
+        required: false
+        default: 'affected'
 
 permissions:
   actions: read
@@ -14,16 +21,62 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # Set up Node.js environment
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
+      # Install dependencies
       - run: npm ci --legacy-peer-deps
+
+      # Set commit SHAs for Nx
       - uses: nrwl/nx-set-shas@v4
 
+      # Authenticate to Google Cloud
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # Lint, test, and build affected applications
       - run: npx nx affected -t lint test build
+
+      # Build Docker images for affected apps
+      - name: Build and Push Docker Images
+        run: |
+          # Get the list of affected applications
+          affected_apps=$(npx nx affected:apps --plain)
+          for app in $affected_apps; do
+            echo "Building Docker image for $app..."
+            # Build the Docker image for each affected app
+            docker build -t gcr.io/${{ secrets.PROJECT_ID }}/${{ secrets.APP_NAME }}-${{ github.ref_name }}-$app:latest --build-arg APP=$app -f apps/$app/Dockerfile .
+            
+            # Push the Docker image to Google Container Registry
+            docker push gcr.io/${{ secrets.PROJECT_ID }}/${{ secrets.APP_NAME }}-${{ github.ref_name }}-$app:latest
+          done
+
+      
+
+      # # Deploy to Google Cloud Run based on the branch/environment
+      # - name: Deploy to Cloud Run
+      #   run: |
+      #     # Get the list of affected applications
+      #     affected_apps=$(npx nx affected:apps --plain)
+      #     for app in $affected_apps; do
+      #       echo "Deploying $app to Cloud Run..."
+      #       # Deploy the application to Cloud Run with the specified naming convention
+      #       gcloud run deploy ${{ secrets.VARS_APP_NAME }}-${{ github.ref_name }}-$app \
+      #         --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.VARS_APP_NAME }}-${{ github.ref_name }}-$app:latest \
+      #         --platform managed \
+      #         --region ${{ secrets.GCP_REGION }} \
+      #         --allow-unauthenticated \
+      #         --project ${{ secrets.GCP_PROJECT_ID }} \
+      #         --quiet \
+      #         --set-env-vars ENVIRONMENT=${{ github.ref_name }}
+      #     done
