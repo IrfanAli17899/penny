@@ -24,7 +24,7 @@
     <nz-layout>
         <nz-header class="bg-transparent flex justify-between items-center">
             <button nz-button nzType="text" (click)="collapsedChange()">
-                <span nz-icon [nzType]="collapsed ? 'menu-unfold' : 'menu-fold'"></span>
+                open
             </button>
             <h3 nz-typography class="capitalize">{{title}}</h3>
             <nz-avatar nzSize="large" [nzText]="(user$|async)?.username"></nz-avatar>

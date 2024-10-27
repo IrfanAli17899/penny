@@ -3,9 +3,7 @@
         <nz-form-item class="mb-5">
             <nz-form-control nzErrorTip="Please input your email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="mail">
-                    <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />
-                </nz-input-group>
+                <input nzSize="large" type="text" id="email" nz-input formControlName="email" placeholder="Email" />
             </nz-form-control>
         </nz-form-item>
         <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { CreateTodoInput, DeleteTodoInput, Todo, UpdateTodoInput } from '../../store/todos/todos.models';
+import { CreateTodoInput, DeleteTodoInput, GetTodosInput, Todo, UpdateTodoInput } from '../../store/todos/todos.models';
 import { AxiosResponse } from 'axios';
 
 @Injectable({
@@ -9,8 +9,8 @@ import { AxiosResponse } from 'axios';
 export class TodosService {
   private apiService = inject(ApiService);
 
-  async fetchTodos() {
-    const todos = (await this.apiService.api.get<{ data: Todo[] }>('/todo')).data;
+  async fetchTodos(props: GetTodosInput) {
+    const todos = (await this.apiService.api.get<{ data: Todo[] }>('/todo', { params: props })).data;
     return todos;
   }
 

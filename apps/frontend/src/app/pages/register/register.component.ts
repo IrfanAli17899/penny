@@ -4,7 +4,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -21,7 +20,6 @@ import { AsyncPipe } from '@angular/common';
     NzButtonModule,
     NzInputModule,
     NzDividerModule,
-    NzIconModule,
     ReactiveFormsModule,
     RouterLink,
     NzSpaceModule,

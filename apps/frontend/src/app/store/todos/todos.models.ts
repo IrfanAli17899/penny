@@ -8,6 +8,8 @@ export interface Todo {
   "user": string | IUser;
 }
 
+export type GetTodosInput = { filters?: { completed?: boolean } };
+
 export type CreateTodoInput = Pick<Todo, "title" | "description">;
 export type UpdateTodoInput = Partial<Omit<Todo, "user">>;
 export type DeleteTodoInput = { _id: string };

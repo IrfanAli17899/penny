@@ -1,29 +1,19 @@
 <div class="flex items-center justify-center h-full">
     <form class="w-96" nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
         @if((authActionState$ | async)?.error){
-            <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
+        <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
         }
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
-                <nz-input-group nzSize="large" [nzPrefix]="emailIcon">
-                    <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />
-                </nz-input-group>
-                <ng-template #emailIcon>
-                    <span nz-icon nzType="mail" nzTheme="outline"></span>
-                </ng-template>
+                <input nzSize="large" type="text" id="email" nz-input formControlName="email" placeholder="Email" />
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your Password!">
                 <nz-form-label [nzXs]="24" nzFor="password">Password</nz-form-label>
-                <nz-input-group nzSize="large" [nzPrefix]="passIcon">
-                    <input type="password" id="password" nz-input [type]="passwordVisible ? 'text' : 'password'"
-                        formControlName="password" placeholder="Password" />
-                </nz-input-group>
-                <ng-template #passIcon>
-                    <span nz-icon nzType="lock" nzTheme="outline"></span>
-                </ng-template>
+                <input nzSize="large" type="password" id="password" nz-input
+                    [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Password" />
             </nz-form-control>
         </nz-form-item>
         <div class="text-end mb-5">

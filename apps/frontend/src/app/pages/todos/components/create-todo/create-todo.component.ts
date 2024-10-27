@@ -9,6 +9,8 @@ import { selectTodosActionState } from 'apps/frontend/src/app/store/todos/todos.
 import { AsyncPipe } from '@angular/common';
 import * as TodoActions from '../../../../store/todos/todos.actions'
 import { Actions, ofType } from '@ngrx/effects';
+import { Todo } from 'apps/frontend/src/app/store/todos/todos.models';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-create-todo',
@@ -18,6 +20,7 @@ import { Actions, ofType } from '@ngrx/effects';
 })
 export class CreateTodoComponent {
   visible = false;
+  editId: string | null = null;
   private store = inject(Store)
   actions$ = inject(Actions);
   todosActionState$ = this.store.select(selectTodosActionState);
@@ -31,21 +34,34 @@ export class CreateTodoComponent {
     this.visible = true;
   }
 
+  edit(todo: Todo): void {
+    this.editId = todo._id;
+    this.createForm.patchValue({ description: todo.description, title: todo.title });
+    this.visible = true;
+  }
+
   close(): void {
-    this.createForm.reset()
+    console.log("🚀 ~ CreateTodoComponent ~ close ~ close:")
+    this.createForm.reset();
+    this.editId = null;
     this.visible = false;
   }
 
   constructor() {
-    this.actions$.pipe(
-      ofType(TodoActions.createTodoSuccess),
+    merge(
+      this.actions$.pipe(ofType(TodoActions.createTodoSuccess)),
+      this.actions$.pipe(ofType(TodoActions.updateTodoSuccess))
     ).subscribe(() => this.close());
   }
 
- 
+
   async submitForm() {
     if (this.createForm.valid) {
       const todo = this.createForm.getRawValue();
+      if (this.editId) {
+        this.store.dispatch(TodoActions.updateTodo({ todo: { ...todo, _id: this.editId } }));
+        return;
+      }
       this.store.dispatch(TodoActions.createTodo({ todo }));
     } else {
       Object.values(this.createForm.controls).forEach(control => {

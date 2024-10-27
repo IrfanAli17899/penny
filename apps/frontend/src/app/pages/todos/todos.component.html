@@ -1,8 +1,8 @@
 <div>
     <div class="flex justify-between items-center mb-5">
-        <input class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
+        <input [(ngModel)]="search"  class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
         <nz-space>
-            <nz-select *nzSpaceItem nzSize="large" class="w-32">
+            <nz-select [(ngModel)]="completed" *nzSpaceItem nzSize="large" class="w-32">
                 <nz-option nzValue="" nzLabel="All"></nz-option>
                 <nz-option nzValue="true" nzLabel="Completed"></nz-option>
                 <nz-option nzValue="false" nzLabel="Pending"></nz-option>
@@ -35,7 +35,7 @@
                 </td>
                 <td nzAlign="right" nzRight>
                     <nz-space>
-                        <button *nzSpaceItem nz-button>Edit</button>
+                        <button *nzSpaceItem nz-button (click)="editTodo(data)">Edit</button>
                         <button *nzSpaceItem nz-button nzDanger nzType="primary" (click)="deleteTodo(data._id)">Delete</button>
                     </nz-space>
                 </td>

@@ -4,7 +4,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -20,7 +19,6 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzButtonModule,
     NzInputModule,
     NzDividerModule,
-    NzIconModule,
     ReactiveFormsModule,
     RouterLink,
     NzSpaceModule,

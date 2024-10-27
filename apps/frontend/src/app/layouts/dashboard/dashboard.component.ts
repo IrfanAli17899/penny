@@ -11,7 +11,6 @@ import { selectUser } from '../../store/auth/auth.selectors';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import * as AuthActions from '../../store/auth/auth.actions';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
@@ -25,7 +24,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzMenuModule,
     AsyncPipe,
     NzButtonModule,
-    NzIconModule,
   ],
   templateUrl: './dashboard.component.html',
 })
