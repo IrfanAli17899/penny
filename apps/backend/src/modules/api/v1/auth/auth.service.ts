@@ -73,11 +73,7 @@ export class AuthService {
   }
 
   async verifyToken(token: string) {
-    try {
       const payload = jwt.verify(token, this.configService.JWT_SECRET);
       return await this.userModel.findById(payload.id, { password: 0 });
-    } catch (e) {
-      throw new UnauthorizedException(ErrorMessage.INVALID_ACCESS_TOKEN);
-    }
   }
 }
