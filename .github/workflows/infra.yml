@@ -27,7 +27,6 @@ jobs:
       TF_VAR_frontend_container_image: ${{ secrets.FRONTEND_CONTAINER_IMAGE }}
       TF_VAR_backend_container_image: ${{ secrets.BACKEND_CONTAINER_IMAGE }}
       TF_VAR_domain_name: ${{ secrets.DOMAIN_NAME }}
-      TF_WORKSPACE: ${{ github.ref_name }}
 
     steps:
       - name: Checkout code
@@ -50,7 +49,7 @@ jobs:
 
       - name: Select or Create Workspace
         run: |
-          terraform workspace select ${{ env.TF_WORKSPACE }}
+          terraform workspace select ${{ github.ref_name }}
         working-directory: infra/terraform
 
       - name: Terraform Plan
