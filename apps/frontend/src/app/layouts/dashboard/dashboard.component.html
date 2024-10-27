@@ -1,31 +1,36 @@
 <nz-layout class="h-full">
 
-    <nz-sider nzTheme="light" [nzWidth]="250">
-        <nz-header class="bg-transparent flex items-center px-6 mb-5">
-            <img src="images/logo.svg" alt="logo" class="invert h-8" />
-        </nz-header>
-        <ul nz-menu nzMode="inline">
-            <li nz-menu-item nzMatchRouter nzMatchRouterExact>
-                <a routerLink="/dashboard">Dashboard</a>
-            </li>
-            <li nz-menu-item nzMatchRouter>
-                <a routerLink="/dashboard/todos">Todos</a>
-            </li>
-        </ul>
+    <nz-sider nzBreakpoint="md" [nzCollapsedWidth]="0" [nzCollapsed]="collapsed" (nzCollapsedChange)="collapsedChange()"
+        nzTheme="light" [nzWidth]="250">
+        <div class="flex flex-col h-full">
+            <nz-header class="bg-transparent flex items-center px-6 mb-5">
+                <img src="images/logo.svg" alt="logo" class="invert h-8" />
+            </nz-header>
+            <ul nz-menu nzMode="inline">
+                <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+                    <a routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                    <a routerLink="/dashboard/todos">Todos</a>
+                </li>
+            </ul>
+            <div class="flex-1"></div>
+            <div class="p-5">
+                <button nz-button nzType="primary" nzSize="large" nzBlock (click)="handleLogout()">Logout</button>
+            </div>
+        </div>
     </nz-sider>
 
     <nz-layout>
         <nz-header class="bg-transparent flex justify-between items-center">
+            <button nz-button nzType="text" (click)="collapsedChange()">
+                <span nz-icon [nzType]="collapsed ? 'menu-unfold' : 'menu-fold'"></span>
+            </button>
             <h3 nz-typography class="capitalize">{{title}}</h3>
-            <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzSize="large" nzText="USER"></nz-avatar>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                    <li nz-menu-item>Logout</li>
-                </ul>
-            </nz-dropdown-menu>
+            <nz-avatar nzSize="large" [nzText]="(user$|async)?.username"></nz-avatar>
         </nz-header>
 
-        <nz-content class="px-10 py-5">
+        <nz-content class="px-10 py-5 overflow-y-auto">
             <router-outlet></router-outlet>
         </nz-content>
     </nz-layout>

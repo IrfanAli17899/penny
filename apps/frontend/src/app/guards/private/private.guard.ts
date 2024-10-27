@@ -24,7 +24,6 @@ export class PrivateGuard implements CanActivate {
       switchMap(() => this.store.select(selectIsAuthenticated)),
       take(1),
       map(isAuthenticated => {
-        console.log('Auth state after check completion:', isAuthenticated);
         if (isAuthenticated) {
           return true;
         } else {

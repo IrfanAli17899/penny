@@ -8,20 +8,32 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../services';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { Store } from '@ngrx/store';
+import { selectAuthActionState } from '../../store/auth/auth.selectors';
+import * as AuthActions from '../../store/auth/auth.actions';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [NzFormModule, NzButtonModule, NzInputModule, NzDividerModule, NzIconModule, ReactiveFormsModule, RouterLink, NzSpaceModule, NzCheckboxModule],
+  imports: [
+    NzFormModule,
+    NzButtonModule,
+    NzInputModule,
+    NzDividerModule,
+    NzIconModule,
+    ReactiveFormsModule,
+    RouterLink,
+    NzSpaceModule,
+    NzCheckboxModule,
+    AsyncPipe
+  ],
   templateUrl: './register.component.html',
 })
 
 export class RegisterPageComponent {
-  private auth = inject(AuthService)
-  private message = inject(NzMessageService)
-  isLoading = false;
+  private store = inject(Store)
+  authActionState$ = this.store.select(selectAuthActionState);
   passwordVisible = false;
 
   registerForm = new FormGroup({
@@ -33,15 +45,8 @@ export class RegisterPageComponent {
 
   async submitForm() {
     if (this.registerForm.valid) {
-      try {
-        this.isLoading = true;
-        const values = this.registerForm.getRawValue();
-        await this.auth.register(values)
-      } catch (error: any) {
-        this.message.error(error.message)
-      } finally {
-        this.isLoading = false;
-      }
+      const { conditions, ...credentials } = this.registerForm.getRawValue();
+      this.store.dispatch(AuthActions.register({ credentials }));
     } else {
       Object.values(this.registerForm.controls).forEach(control => {
         if (control.invalid) {

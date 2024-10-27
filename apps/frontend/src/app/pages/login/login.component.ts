@@ -7,38 +7,43 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../services';
-import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../store/auth/auth.actions';
+import { selectAuthActionState } from '../../store/auth/auth.selectors';
+import { AsyncPipe } from '@angular/common';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [NzFormModule, NzButtonModule, NzInputModule, NzDividerModule, NzIconModule, ReactiveFormsModule, RouterLink, NzSpaceModule],
+  imports: [
+    NzFormModule,
+    NzButtonModule,
+    NzInputModule,
+    NzDividerModule,
+    NzIconModule,
+    ReactiveFormsModule,
+    RouterLink,
+    NzSpaceModule,
+    AsyncPipe,
+    NzAlertModule
+  ],
   templateUrl: './login.component.html',
 })
 
 export class LoginPageComponent {
-  private auth = inject(AuthService)
-  private message = inject(NzMessageService)
-  isLoading = false;
+  private store = inject(Store)
   passwordVisible = false;
+  authActionState$ = this.store.select(selectAuthActionState);
 
   loginForm = new FormGroup({
-    email: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
   });
 
   async submitForm() {
     if (this.loginForm.valid) {
-      try {
-        this.isLoading = true;
-        const values = this.loginForm.getRawValue();
-        await this.auth.login(values)
-      } catch (error: any) {
-        this.message.error(error.message)
-      } finally {
-        this.isLoading = false;
-      }
+      const credentials = this.loginForm.getRawValue();
+      this.store.dispatch(AuthActions.login({ credentials }));
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
         if (control.invalid) {

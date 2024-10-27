@@ -1,5 +1,8 @@
 <div class="flex items-center justify-center h-full">
     <form class="w-96" nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+        @if((authActionState$ | async)?.error){
+            <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
+        }
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
@@ -26,7 +29,8 @@
         <div class="text-end mb-5">
             <a routerLink="/auth/forget">Forgot password?</a>
         </div>
-        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large"
+            [nzLoading]="(authActionState$ | async)?.isLoading">
             Log in
         </button>
         <nz-divider nzText="OR"></nz-divider>

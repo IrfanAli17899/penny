@@ -7,11 +7,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import * as fromAuth from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
+import * as fromTodos from './store/todos/todos.reducer';
+import { TodosEffects } from './store/todos/todos.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideStore({ auth: fromAuth.authReducer }),
-    provideEffects([AuthEffects]),
+    provideStore({ auth: fromAuth.authReducer,todos: fromTodos.todosReducer }),
+    provideEffects([AuthEffects, TodosEffects]),
     provideStoreDevtools(),
     provideClientHydration(),
     provideZoneChangeDetection({ eventCoalescing: true }),

@@ -1,5 +1,8 @@
 <div class="flex items-center justify-center h-full">
     <form class="w-96" nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+        @if((authActionState$ | async)?.error){
+        <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
+        }
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
                 <nz-form-label nzFor="username">Username</nz-form-label>
@@ -38,7 +41,8 @@
                 </label>
             </nz-form-control>
         </nz-form-item>
-        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large"
+            [nzLoading]="(authActionState$ | async)?.isLoading">
             Register
         </button>
         <nz-divider nzText="OR"></nz-divider>
