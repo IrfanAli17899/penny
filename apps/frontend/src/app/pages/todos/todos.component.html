@@ -1,0 +1,42 @@
+<div>
+    <div class="flex justify-between items-center mb-5">
+        <input class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
+        <nz-space>
+            <nz-select *nzSpaceItem nzSize="large" class="w-32">
+                <nz-option nzValue="" nzLabel="All"></nz-option>
+                <nz-option nzValue="true" nzLabel="Completed"></nz-option>
+                <nz-option nzValue="false" nzLabel="Pending"></nz-option>
+            </nz-select>
+            <app-create-todo *nzSpaceItem />
+        </nz-space>
+    </div>
+    <nz-table #basicTable [nzData]="listOfData" [nzScroll]="{ x: 'true' }">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th nzAlign="right" nzRight></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (data of basicTable.data; track data) {
+            <tr>
+                <td>{{ data.title }}</td>
+                <td>{{ data.description }}</td>
+                <td>
+                    <nz-tag [nzColor]="data.completed ? 'green' : 'red'">
+                        {{ data.completed ? 'Completed' : 'Pending' }}
+                    </nz-tag>
+                </td>
+                <td nzAlign="right" nzRight>
+                    <nz-space>
+                        <button *nzSpaceItem nz-button>Edit</button>
+                        <button *nzSpaceItem nz-button nzDanger nzType="primary">Delete</button>
+                    </nz-space>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+</div>

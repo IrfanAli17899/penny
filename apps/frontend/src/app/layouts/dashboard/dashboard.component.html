@@ -1,0 +1,32 @@
+<nz-layout class="h-full">
+
+    <nz-sider nzTheme="light" [nzWidth]="250">
+        <nz-header class="bg-transparent flex items-center px-6 mb-5">
+            <img src="images/logo.svg" alt="logo" class="invert h-8" />
+        </nz-header>
+        <ul nz-menu nzMode="inline">
+            <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+                <a routerLink="/dashboard">Dashboard</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <a routerLink="/dashboard/todos">Todos</a>
+            </li>
+        </ul>
+    </nz-sider>
+
+    <nz-layout>
+        <nz-header class="bg-transparent flex justify-between items-center">
+            <h3 nz-typography class="capitalize">{{title}}</h3>
+            <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzSize="large" nzText="USER"></nz-avatar>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item>Logout</li>
+                </ul>
+            </nz-dropdown-menu>
+        </nz-header>
+
+        <nz-content class="px-10 py-5">
+            <router-outlet></router-outlet>
+        </nz-content>
+    </nz-layout>
+</nz-layout>
