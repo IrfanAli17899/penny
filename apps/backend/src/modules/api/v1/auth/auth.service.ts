@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../user/entities/user.entity';
@@ -61,7 +61,7 @@ export class AuthService {
     const tokenEntry = await this.tokenModel.findOne({ userId, refreshToken: oldRefreshToken });
 
     if (!tokenEntry) {
-      throw new UnauthorizedException(ErrorMessage.INVALID_REFRESH_TOKEN);
+      throw new NotFoundException(ErrorMessage.REFRESH_TOKEN_NOT_FOUND);
     }
 
     const user = await this.userModel.findById(userId);

@@ -22,33 +22,30 @@ export class AuthGuard implements CanActivate {
         const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler()) || [];
 
         try {
-            const payload = this.authService.verifyToken(accessToken);
-            request.user = payload;
-            return this.hasRequiredRoles(request.user.roles, requiredRoles);;
+            request.user = await this.authService.verifyToken(accessToken);
+            return this.hasRequiredRoles(request.user.roles, requiredRoles);
         } catch (error) {
             if (error.name === 'TokenExpiredError' && refreshToken) {
-                try {
-                    const newTokens = await this.authService.refreshTokens(accessToken, refreshToken);
+                const newTokens = await this.authService.refreshTokens(accessToken, refreshToken);
 
-                    request.res.cookie('accessToken', newTokens.accessToken, {
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === 'production',
-                        maxAge: 3600000, // 1 hour
-                    });
+                request.res.cookie('accessToken', newTokens.accessToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: 3600000, // 1 hour
+                });
 
-                    request.res.cookie('refreshToken', newTokens.refreshToken, {
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === 'production',
-                        maxAge: 28800000, // 8 hours
-                    });
+                request.res.cookie('refreshToken', newTokens.refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: 28800000, // 8 hours
+                });
 
-                    request.user = this.authService.verifyToken(newTokens.accessToken);
-                    return this.hasRequiredRoles(request.user.roles, requiredRoles);
-                } catch (refreshError) {
-                    throw new UnauthorizedException(ErrorMessage.INVALID_REFRESH_TOKEN);
-                }
+                request.user = await this.authService.verifyToken(newTokens.accessToken);
+                return this.hasRequiredRoles(request.user.roles, requiredRoles);
+            } else if (error.name === 'TokenExpiredError') {
+                throw new UnauthorizedException(ErrorMessage.INVALID_ACCESS_TOKEN);
             }
-            throw new UnauthorizedException(ErrorMessage.INVALID_ACCESS_TOKEN);
+            throw error;
         }
     }
     private hasRequiredRoles(userRoles: string[], requiredRoles: string[]): boolean {
