@@ -56,9 +56,15 @@ jobs:
       - name: Build and Push Docker Images
         run: |
           # Get the list of affected applications
+          
           # affected_apps=$(npx nx show projects --type app --affected --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }})
+          
           affected_apps=frontend,backend
-          for app in $affected_apps; do
+          IFS=',' read -r -a apps_array <<< "$affected_apps"  # Convert string to array
+          
+          # for app in $affected_apps; do
+            
+          for app in "${apps_array[@]}"; do
             echo "Building Docker image for $app..."
             # Build the Docker image for each affected app
             docker build -t gcr.io/${{ secrets.PROJECT_ID }}/${{ secrets.APP_NAME }}-${{ github.ref_name }}-$app:latest --build-arg APP=$app -f apps/$app/Dockerfile .
