@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { LoginInput, RegisterInput, IUser } from '../../models';
+import { IUser, LoginInput, RegisterInput } from './auth.models';
 
 export const login = createAction('[Auth] Login', props<{ credentials: LoginInput }>());
-export const loginSuccess = createAction('[Auth] Login Success', props<{ user: IUser | null, isAuthenticated: boolean }>());
+export const loginSuccess = createAction('[Auth] Login Success', props<{ user: IUser | null }>());
 export const loginFailure = createAction('[Auth] Login Failure', props<{ error: string }>());
 
 export const register = createAction('[Auth] Register', props<{ credentials: RegisterInput }>());

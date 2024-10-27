@@ -16,7 +16,7 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap(({ credentials }) =>
         this.authService.login(credentials).then(user =>
-          AuthActions.loginSuccess({ user, isAuthenticated: !!user })
+          AuthActions.loginSuccess({ user })
         ).catch(error =>
           AuthActions.loginFailure({ error: error.message })
         )
@@ -44,6 +44,15 @@ export class AuthEffects {
         )
       )
     )
+  );
+
+  registerSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerSuccess),
+        tap(() => this.router.navigate(['/dashboard']))
+      ),
+    { dispatch: false }
   );
 
   checkAuthentication$ = createEffect(() =>

@@ -18,9 +18,6 @@ import {
       let status = HttpStatus.INTERNAL_SERVER_ERROR;
       let message = 'Internal server error';
 
-      console.log(exception);
-      
-  
       // Handle Mongoose Validation Errors
       if (exception instanceof Error.ValidationError) {
         status = HttpStatus.BAD_REQUEST;

@@ -26,7 +26,7 @@
             </nz-form-control>
         </nz-form-item>
          <div class="flex-1"></div>
-        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large"  [nzLoading]="(todosActionState$ | async)?.loading">
             Create
         </button>
     </form>
