@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@backend/*": ["apps/backend/src/*"]
+      "@backend/*": ["apps/backend/src/*"],
+      "@penny/core": ["libs/core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

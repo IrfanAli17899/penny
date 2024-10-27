@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { RequestUser, ReqUser } from '../../../../decorators/req-user.decorator';
 import { AuthedOnly } from '../../../../guards/auth.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { GetTodoListDto } from './dto/get-todo-list.dto'
 
 @ApiTags('Todo')
 @Controller()
@@ -19,8 +20,8 @@ export class TodoController {
 
   @Get()
   @AuthedOnly()
-  getTodosByUser(@ReqUser() user: RequestUser) {
-    return this.todoService.getTodosByUser(user);
+  getTodosByUser(@Query() query: GetTodoListDto, @ReqUser() user: RequestUser) {
+    return this.todoService.getTodosByUser(query, user);
   }
 
   @Get(":id")

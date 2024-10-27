@@ -7,6 +7,10 @@ import { Todo } from './entities/todo.entity';
 import { User } from '../user/entities/user.entity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { ErrorMessage } from '../../../../constants/error-message.constant';
+import { GetTodoListDto } from './dto/get-todo-list.dto';
+import { removeUndefined } from '@penny/core';
+import { paginate } from '../../../../utils/pagination-util';
+import { PaginatedResponseDto } from '../../../../common/dto/filters.dto';
 
 @Injectable()
 export class TodoService {
@@ -17,8 +21,13 @@ export class TodoService {
     return newTodo.save();
   }
 
-  async getTodosByUser(user: User): Promise<Todo[]> {
-    return await this.todoModel.find({ user: user._id });
+  async getTodosByUser(obj: GetTodoListDto, user: User): Promise<PaginatedResponseDto<Todo>> {
+    return await paginate(this.todoModel, obj.pagination.page, obj.pagination.limit, {
+      user: user._id,
+      ...removeUndefined({
+        completed: obj.filters.completed
+      })
+    })
   }
 
   async getTodoDetailById(_id: string, user: User): Promise<Todo> {
