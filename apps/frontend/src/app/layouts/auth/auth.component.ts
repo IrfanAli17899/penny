@@ -8,7 +8,6 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
   standalone: true,
   imports: [RouterModule, NzTypographyModule, NzCarouselModule],
   templateUrl: './auth.component.html',
-  styleUrl: './auth.component.css'
 })
 export class AuthLayoutComponent {
   array = [1, 2, 3, 4];
