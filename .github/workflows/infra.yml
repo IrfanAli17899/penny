@@ -1,0 +1,64 @@
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main   # Maps to production environment
+      - dev    # Maps to development environment
+      - stg    # Maps to staging environment
+    paths:
+      - infra/terraform/**  # Trigger the workflow only if files in this directory change
+      - .github/workflows/infra.yml  # Trigger the workflow if the workflow file changes
+
+jobs:
+  terraform:
+    name: Terraform Plan & Apply
+    runs-on: ubuntu-latest
+
+    # Automatically use the GitHub environment based on the branch name
+    environment: ${{ github.ref_name }}
+
+    # Define environment variables shared across all steps in the job
+    env:
+      TF_VAR_project_id: ${{ secrets.PROJECT_ID }}
+      TF_VAR_region: ${{ secrets.REGION }}
+      TF_VAR_app_name: ${{ secrets.APP_NAME }}
+      TF_VAR_environment: ${{ github.ref_name }}  # Set environment dynamically from branch name
+      TF_VAR_frontend_container_image: ${{ secrets.FRONTEND_CONTAINER_IMAGE }}
+      TF_VAR_backend_container_image: ${{ secrets.BACKEND_CONTAINER_IMAGE }}
+      TF_VAR_domain_name: ${{ secrets.DOMAIN_NAME }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Initialize Terraform
+        run: |
+          terraform init -input=false
+        working-directory: infra/terraform
+
+      - name: Select or Create Workspace
+        run: |
+          terraform workspace select ${{ github.ref_name }}
+        working-directory: infra/terraform
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan
+        working-directory: infra/terraform
+
+      - name: Apply Terraform Changes
+        run: |
+          terraform apply -auto-approve
+        working-directory: infra/terraform

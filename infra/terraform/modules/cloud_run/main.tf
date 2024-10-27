@@ -2,9 +2,15 @@ resource "google_cloud_run_v2_service" "service" {
   name     = "${var.app_name}-${var.environment}-${var.service_name}-service"
   location = var.region
   project  = var.project_id
-  ingress = var.ingress
+  ingress  = var.ingress
 
   deletion_protection = false
+
+  lifecycle {
+    ignore_changes = [
+      template[0].containers[0].image,
+    ]
+  }
 
   template {
     containers {
@@ -20,7 +26,7 @@ resource "google_cloud_run_v2_service" "service" {
 
     vpc_access {
       connector = var.vpc_connector_id
-      egress    = "ALL_TRAFFIC"  
+      egress    = "ALL_TRAFFIC"
     }
 
     scaling {
@@ -39,7 +45,7 @@ resource "google_cloud_run_v2_service" "service" {
 }
 
 resource "google_cloud_run_v2_service_iam_member" "invoker" {
- name     = google_cloud_run_v2_service.service.name
+  name     = google_cloud_run_v2_service.service.name
   location = var.region
   project  = var.project_id
   role     = "roles/run.invoker"
