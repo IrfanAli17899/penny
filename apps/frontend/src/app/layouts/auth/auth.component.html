@@ -1,0 +1,20 @@
+<div class="flex h-full">
+    <div class="flex-1 bg-secondary hidden min-[860px]:flex flex-col items-center p-10">
+        <nz-carousel nzAutoPlay class="flex-1 w-[500px]">
+            @for (index of array; track index) {
+            <div nz-carousel-content class="flex justify-center items-center">
+                <h3 class="text-white text-4xl">{{ index }}</h3>
+            </div>
+            }
+        </nz-carousel>
+    </div>
+    <div class="flex-1 flex flex-col pt-10">
+        <img src="images/logo.svg" alt="Logo" class="h-10 invert">
+        <div class="flex-1">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="text-center py-5">
+            <p nz-typography><strong>Build v5.0.1 2024 © Penny. All rights reserved.</strong></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<button nz-button nzType="primary" (click)="open()" nzSize="large">New</button>
+<nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="visible"
+  nzPlacement="right"
+  nzTitle="Create Todo"
+  (nzOnClose)="close()"
+  nzWidth="500px"
+>
+  <ng-container *nzDrawerContent>
+    <form class="flex flex-col h-full" nz-form [formGroup]="createForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your title!">
+                <nz-form-label nzFor="title">Title</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="mail">
+                    <input type="text" id="title" nz-input formControlName="title" placeholder="Title" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your description!">
+                <nz-form-label nzFor="description">Description</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="mail">
+                    <textarea id="description" nz-input formControlName="description" placeholder="Description" rows="4" ></textarea>
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+         <div class="flex-1"></div>
+        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+            Create
+        </button>
+    </form>
+  </ng-container>
+</nz-drawer>

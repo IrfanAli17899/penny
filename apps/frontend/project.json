@@ -8,20 +8,28 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/frontend/browser",
         "index": "apps/frontend/src/index.html",
         "main": "apps/frontend/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/frontend/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/frontend/public"
+            "input": "apps/frontend/src/assets"
           }
         ],
-        "styles": ["apps/frontend/src/styles.css"],
+        "styles": [
+          "node_modules/ng-zorro-antd/ng-zorro-antd.css",
+          "apps/frontend/src/styles.css",
+          "apps/frontend/src/theme.less"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -74,7 +82,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/frontend/jest.config.ts"
       }
@@ -88,7 +98,9 @@
       }
     },
     "server": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/frontend/server",
@@ -126,7 +138,9 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": ["/"]
+        "routes": [
+          "/"
+        ]
       },
       "configurations": {
         "development": {

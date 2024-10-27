@@ -1,0 +1,52 @@
+<div class="flex items-center justify-center h-full">
+    <form class="w-96" nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your username!">
+                <nz-form-label nzFor="username">Username</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="user">
+                    <input type="text" id="username" nz-input formControlName="username" placeholder="Username" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your email!">
+                <nz-form-label nzFor="email">Email</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="mail">
+                    <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your Password!">
+                <nz-form-label [nzXs]="24" nzFor="password">Password</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                    <input type="password" id="password" nz-input [type]="passwordVisible ? 'text' : 'password'"
+                        formControlName="password" placeholder="Password" />
+                </nz-input-group>
+                <ng-template #suffixTemplate>
+                    <button (click)="passwordVisible = !passwordVisible">
+                        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"></span>
+                    </button>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please accept terms!">
+                <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
+                <label nz-checkbox formControlName="conditions">
+                    Accept terms & conditions!
+                </label>
+            </nz-form-control>
+        </nz-form-item>
+        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+            Register
+        </button>
+        <nz-divider nzText="OR"></nz-divider>
+        <div class="flex flex-col items-center">
+            <nz-space>
+                <p *nzSpaceItem>Already have an account?</p>
+                <a *nzSpaceItem routerLink="/auth/login">Login</a>
+            </nz-space>
+        </div>
+    </form>
+</div>

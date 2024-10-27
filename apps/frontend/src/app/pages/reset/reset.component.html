@@ -1,0 +1,27 @@
+<div class="flex items-center justify-center h-full">
+    <form class="w-96" nz-form [formGroup]="resetForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your password!">
+                <nz-form-label nzFor="password">Password</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="lock">
+                    <input type="password" id="password" nz-input formControlName="password" placeholder="Password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-5">
+            <nz-form-control nzErrorTip="Please input your password again!">
+                <nz-form-label nzFor="confirm_password">Confirm Password</nz-form-label>
+                <nz-input-group nzSize="large" nzPrefixIcon="lock">
+                    <input type="confirm_password" id="confirm_password" nz-input formControlName="confirm_password"
+                        placeholder="Confirm Password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+            Reset
+        </button>
+        <div class="mt-5 flex flex-col items-center">
+            <a routerLink="/auth/login">Back to Login!</a>
+        </div>
+    </form>
+</div>
