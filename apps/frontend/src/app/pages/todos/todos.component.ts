@@ -1,17 +1,19 @@
 import { Component, inject, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
+
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+
 import { CreateTodoComponent } from './components/create-todo/create-todo.component';
+
 import { Store } from '@ngrx/store';
-import { selectTodos, selectTodosActionState } from '../../store/todos/todos.selectors';
-import { AsyncPipe } from '@angular/common';
-import * as TodoActions from '../../store/todos/todos.actions'
-import { Todo } from '../../store/todos/todos.models';
-import { FormsModule } from '@angular/forms';
+
+import { Todo, TodosActions, TodosSelectors } from '../../store';
 @Component({
   selector: 'app-todos-page',
   standalone: true,
@@ -20,14 +22,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class TodosPageComponent implements OnChanges {
   store = inject(Store);
-  todos$ = this.store.select(selectTodos)
-  todosActionsState$ = this.store.select(selectTodosActionState)
+  todos$ = this.store.select(TodosSelectors.selectTodos)
+  todosActionsState$ = this.store.select(TodosSelectors.selectTodosActionState)
   search? = '';
   completed?: boolean;
   @ViewChild(CreateTodoComponent) drawer!: CreateTodoComponent;
 
   fetchTodos() {
-    this.store.dispatch(TodoActions.initTodos({ filters: { completed: this.completed } }));
+    this.store.dispatch(TodosActions.initTodos({ filters: { completed: this.completed } }));
   }
 
   constructor() {
@@ -41,11 +43,11 @@ export class TodosPageComponent implements OnChanges {
   }
 
   onItemChecked(id: string, checked: boolean): void {
-    this.store.dispatch(TodoActions.updateTodo({ todo: { _id: id, completed: checked } }));
+    this.store.dispatch(TodosActions.updateTodo({ todo: { _id: id, completed: checked } }));
   }
 
   deleteTodo(id: string): void {
-    this.store.dispatch(TodoActions.deleteTodo({ _id: id }));
+    this.store.dispatch(TodosActions.deleteTodo({ _id: id }));
   }
 
   editTodo(todo: Todo): void {

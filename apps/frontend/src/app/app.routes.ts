@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 import {
     LoginPageComponent,
-    DashboardPageComponent,
     ForgetPageComponent,
     RegisterPageComponent,
     TodosPageComponent,
@@ -33,8 +32,7 @@ export const appRoutes: Route[] = [
         component: DashboardLayoutComponent,
         canActivate: [PrivateGuard],
         children: [
-            { path: "", component: DashboardPageComponent },
-            { path: "todos", component: TodosPageComponent }
+            { path: "", component: TodosPageComponent }
         ]
     },
     { path: "**", component: NotFoundPageComponent }

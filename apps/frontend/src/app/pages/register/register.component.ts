@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+
 import { Store } from '@ngrx/store';
-import { selectAuthActionState } from '../../store/auth/auth.selectors';
-import * as AuthActions from '../../store/auth/auth.actions';
-import { AsyncPipe } from '@angular/common';
+
+import { AuthActions, AuthSelectors } from '../../store';
 
 @Component({
   selector: 'app-register-page',
@@ -31,7 +33,7 @@ import { AsyncPipe } from '@angular/common';
 
 export class RegisterPageComponent {
   private store = inject(Store)
-  authActionState$ = this.store.select(selectAuthActionState);
+  authActionState$ = this.store.select(AuthSelectors.selectAuthActionState);
   passwordVisible = false;
 
   registerForm = new FormGroup({

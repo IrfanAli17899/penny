@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+
 import { Store } from '@ngrx/store';
-import * as AuthActions from '../../store/auth/auth.actions';
-import { selectAuthActionState } from '../../store/auth/auth.selectors';
 import { AsyncPipe } from '@angular/common';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
+
+import { AuthActions, AuthSelectors } from '../../store';
+
 @Component({
   selector: 'app-login-page',
   standalone: true,
@@ -22,8 +24,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     ReactiveFormsModule,
     RouterLink,
     NzSpaceModule,
-    AsyncPipe,
-    NzAlertModule
+    AsyncPipe
   ],
   templateUrl: './login.component.html',
 })
@@ -31,7 +32,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 export class LoginPageComponent {
   private store = inject(Store)
   passwordVisible = false;
-  authActionState$ = this.store.select(selectAuthActionState);
+  authActionState$ = this.store.select(AuthSelectors.selectAuthActionState);
 
   loginForm = new FormGroup({
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),

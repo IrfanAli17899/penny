@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -7,10 +9,10 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { selectUser } from '../../store/auth/auth.selectors';
+
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
-import * as AuthActions from '../../store/auth/auth.actions';
+
+import { AuthActions, AuthSelectors } from '../../store';
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
@@ -31,7 +33,7 @@ export class DashboardLayoutComponent {
   store = inject(Store)
   title: string;
   collapsed = false;
-  user$ = this.store.select(selectUser)
+  user$ = this.store.select(AuthSelectors.selectUser)
 
   constructor(private router: Router) {
     this.router.url.split("/")
