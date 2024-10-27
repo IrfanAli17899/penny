@@ -18,8 +18,12 @@ permissions:
   contents: read
 
 jobs:
-  main:
+  build_and_deploy:
     runs-on: ubuntu-latest
+    
+    # Automatically use the GitHub environment based on the branch name
+    environment: ${{ github.ref_name }}
+
     steps:
       # Checkout the repository
       - uses: actions/checkout@v4
