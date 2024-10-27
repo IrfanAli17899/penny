@@ -8,6 +8,7 @@ on:
       - stg    # Maps to staging environment
     paths:
       - infra/terraform/**  # Trigger the workflow only if files in this directory change
+      - .github/workflows/infra.yml  # Trigger the workflow if the workflow file changes
 
 jobs:
   terraform:
