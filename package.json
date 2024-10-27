@@ -29,6 +29,7 @@
     "@ngrx/entity": "^18.0.2",
     "@ngrx/router-store": "^18.0.2",
     "@ngrx/store": "^18.0.2",
+    "@ngrx/store-devtools": "^18.1.0",
     "axios": "^1.6.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",

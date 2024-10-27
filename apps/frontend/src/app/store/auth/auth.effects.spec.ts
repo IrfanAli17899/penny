@@ -5,32 +5,32 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 
-import * as TodosActions from './todos.actions';
-import { TodosEffects } from './todos.effects';
+import * as AuthActions from './auth.actions';
+import { AuthEffects } from './auth.effects';
 
-describe('TodosEffects', () => {
+describe('AuthEffects', () => {
   let actions: Observable<Action>;
-  let effects: TodosEffects;
+  let effects: AuthEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        TodosEffects,
+        AuthEffects,
         provideMockActions(() => actions),
         provideMockStore(),
       ],
     });
 
-    effects = TestBed.inject(TodosEffects);
+    effects = TestBed.inject(AuthEffects);
   });
 
   describe('init$', () => {
     it('should work', () => {
-      actions = hot('-a-|', { a: TodosActions.initTodos() });
+      actions = hot('-a-|', { a: AuthActions.initAuth() });
 
       const expected = hot('-a-|', {
-        a: TodosActions.loadTodosSuccess({ todos: [] }),
+        a: AuthActions.loadAuthSuccess({ auth: [] }),
       });
 
       expect(effects.init$).toBeObservable(expected);
