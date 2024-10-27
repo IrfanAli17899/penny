@@ -49,13 +49,15 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       # Lint, test, and build affected applications
-      - run: npx nx affected -t lint test build
+      # - run: npx nx affected -t lint test build
+      - run: npx nx run-many -t build -p frontend,backend
 
       # Build Docker images for affected apps
       - name: Build and Push Docker Images
         run: |
           # Get the list of affected applications
-          affected_apps=$(npx nx affected:apps --plain)
+          # affected_apps=$(npx nx show projects --type app --affected --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }})
+          affected_apps=frontend,backend
           for app in $affected_apps; do
             echo "Building Docker image for $app..."
             # Build the Docker image for each affected app
