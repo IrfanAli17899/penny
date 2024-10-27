@@ -38,23 +38,27 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.5
+          terraform_version: 1.9.8
 
       - name: Initialize Terraform
         run: |
           terraform init -input=false
+        working-directory: infra/terraform
 
       - name: Select or Create Workspace
         run: |
           terraform workspace select ${{ env.TF_WORKSPACE }}
+        working-directory: infra/terraform
 
       - name: Terraform Plan
         id: plan
         run: |
           terraform plan
+        working-directory: infra/terraform
 
       - name: Apply Terraform Changes
         run: |
           terraform apply -auto-approve
+        working-directory: infra/terraform
