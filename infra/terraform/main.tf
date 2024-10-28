@@ -44,7 +44,7 @@ module "backend" {
   container_image  = var.backend_container_image
   vpc_connector_id = module.networking.connector_id
   service_account  = google_service_account.backend_sa.email
-  invoker          = "allUsers"
+  invoker          = "serviceAccount:${google_service_account.frontend_sa.email}"
   ingress          = "INGRESS_TRAFFIC_INTERNAL_ONLY"
 }
 
