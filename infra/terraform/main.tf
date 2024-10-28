@@ -97,21 +97,21 @@ resource "google_compute_url_map" "url_map" {
 
   host_rule {
     hosts        = [var.frontend_domain]
-    path_matcher = "frontend_main"
+    path_matcher = "frontend"
   }
 
   host_rule {
     hosts        = [var.backend_domain]
-    path_matcher = "backend_main"
+    path_matcher = "backend"
   }
 
   path_matcher {
-    name            = "frontend_main"
+    name            = "frontend"
     default_service = module.frontend_lb.backend_service_id
   }
 
    path_matcher {
-    name            = "backend_main"
+    name            = "backend"
     default_service = module.backend_lb.backend_service_id
   }
 }
