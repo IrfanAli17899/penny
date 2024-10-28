@@ -1,5 +1,5 @@
-<div class="flex items-center justify-center h-full">
-    <form class="w-96" nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+<div class="flex items-center justify-center h-full p-5">
+    <form class="w-full sm:w-96" nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
         @if((authActionState$ | async)?.error){
         <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
         }
@@ -16,7 +16,7 @@
                     [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Password" />
             </nz-form-control>
         </nz-form-item>
-        <div class="text-end mb-5">
+        <div class="mb-5 text-end">
             <a routerLink="/auth/forget">Forgot password?</a>
         </div>
         <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large"

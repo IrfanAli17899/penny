@@ -1,5 +1,5 @@
-<div class="flex items-center justify-center h-full">
-    <form class="w-96" nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+<div class="flex items-center justify-center h-full p-5">
+    <form class="w-full sm:w-96" nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
         @if((authActionState$ | async)?.error){
         <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
         }

@@ -26,7 +26,6 @@
           }
         ],
         "styles": [
-          "node_modules/ng-zorro-antd/ng-zorro-antd.css",
           "apps/frontend/src/styles.css",
           "apps/frontend/src/theme.less"
         ],

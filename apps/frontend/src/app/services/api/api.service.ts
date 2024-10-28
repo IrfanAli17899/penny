@@ -7,7 +7,7 @@ import { API_BASE_URL } from '../../config';
 })
 export class ApiService {
     private instance: AxiosInstance = Axios.create({
-        baseURL: API_BASE_URL,
+        baseURL: `${API_BASE_URL}/api/v1`,
         headers: {
             "Content-Type": 'application/json'
         },
