@@ -14,3 +14,12 @@ export interface IUser {
   username: string;
   email: string;
 }
+
+export type ForgetPasswordInput = {
+  email: string;
+}
+
+export type ResetPasswordInput = {
+  password: string;
+  token: string;
+}

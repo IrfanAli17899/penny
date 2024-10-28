@@ -3,7 +3,7 @@
         <nz-carousel nzAutoPlay class="flex-1 w-[400px]">
             @for (index of array; track index) {
             <div nz-carousel-content class="flex items-center justify-center">
-                <h3 class="text-4xl text-white">{{ index }}</h3>
+                <img [alt]="'carousel_image'+index" [src]="index" class="object-contain h-96 aspect-video mix-blend-multiply" />
             </div>
             }
         </nz-carousel>

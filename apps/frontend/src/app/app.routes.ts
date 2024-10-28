@@ -8,7 +8,7 @@ import {
     TodosPageComponent
 } from './pages';
 import { AuthLayoutComponent, DashboardLayoutComponent } from './layouts';
-import { PrivateGuard, PublicGuard } from './guards';
+import { PrivateGuard, PublicGuard, ResetPasswordGuard } from './guards';
 
 export const appRoutes: Route[] = [
     {
@@ -24,7 +24,7 @@ export const appRoutes: Route[] = [
             { path: "login", component: LoginPageComponent },
             { path: "register", component: RegisterPageComponent },
             { path: "forget", component: ForgetPageComponent },
-            { path: "reset", component: ResetPageComponent }
+            { path: "reset", component: ResetPageComponent, canActivate: [ResetPasswordGuard] }
         ]
     },
     {
