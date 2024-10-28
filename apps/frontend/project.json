@@ -7,11 +7,12 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nx/angular:browser-esbuild",
       "outputs": [
         "{options.outputPath}"
       ],
       "options": {
+        "plugins": ["apps/frontend/env-var-plugin.js"],
         "outputPath": "dist/apps/frontend/browser",
         "index": "apps/frontend/src/index.html",
         "main": "apps/frontend/src/main.ts",
@@ -31,8 +32,7 @@
           }
         ],
         "styles": [
-          "apps/frontend/src/styles.css",
-          "apps/frontend/src/theme.less"
+          "apps/frontend/src/styles.css"
         ],
         "scripts": []
       },
