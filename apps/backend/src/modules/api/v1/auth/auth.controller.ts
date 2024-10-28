@@ -60,9 +60,9 @@ export class AuthController {
   }
 
   @Post('forgot-password')
-  async forgotPasswrd(@Body() body: ForgotPasswordDto) {
+  async forgotPassword(@Body() body: ForgotPasswordDto) {
     await this.authService.forgotPassword(body.email);
-    return { message: SuccessMessage.MESSAGE_SENT };
+    return { message: SuccessMessage.RESET_MAIL_SENT };
   }
 
   @Post('reset-password')
