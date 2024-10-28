@@ -4,6 +4,7 @@ import {
     ArgumentsHost,
     HttpStatus,
     HttpException,
+    Logger,
   } from '@nestjs/common';
   import { Response } from 'express';
   import { Error } from 'mongoose';
@@ -14,6 +15,8 @@ import {
     catch(exception: unknown, host: ArgumentsHost) {
       const ctx = host.switchToHttp();
       const response = ctx.getResponse<Response>();
+
+      Logger.error(exception);
       
       let status = HttpStatus.INTERNAL_SERVER_ERROR;
       let message = 'Internal server error';
