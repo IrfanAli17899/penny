@@ -9,6 +9,11 @@ export const selectTodos = createSelector(
   (state: TodosState) => state.todos
 );
 
+export const selectTodosMeta = createSelector(
+  selectTodosState,
+  ({ meta }) => meta
+);
+
 export const selectTodosActionState = createSelector(
   selectTodosState,
   ({ error, loading }) => ({ error, loading })

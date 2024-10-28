@@ -13,8 +13,8 @@ export class TodosEffects {
     this.actions$.pipe(
       ofType(TodosActions.initTodos),
       switchMap(({ type, ...props }) =>
-        this.todoService.fetchTodos(props).then(todos =>
-          TodosActions.loadTodosSuccess({ todos: todos.data })
+        this.todoService.fetchTodos(props).then((todos) =>
+          TodosActions.loadTodosSuccess(todos)
         ).catch(error =>
           TodosActions.loadTodosFailure({ error: error.message })
         )

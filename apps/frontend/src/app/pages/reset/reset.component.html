@@ -3,18 +3,27 @@
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your password!">
                 <nz-form-label nzFor="password">Password</nz-form-label>
-                <input nzSize="large" type="password" id="password" nz-input formControlName="password"
-                    placeholder="Password" />
+                <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">
+                    <input [type]="passwordVisible ? 'text' : 'password'"  id="password" nz-input formControlName="password" placeholder="Password" />
+                </nz-input-group>
+                <ng-template #lock>
+                    <button (click)="passwordVisible = !passwordVisible" type="button">
+                        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            nz-tooltip="Toggle password visibility"></i>
+                    </button>
+                </ng-template>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item class="mb-5">
             <nz-form-control nzErrorTip="Please input your password again!">
                 <nz-form-label nzFor="confirm_password">Confirm Password</nz-form-label>
-                <input nzSize="large" type="confirm_password" id="confirm_password" nz-input
-                    formControlName="confirm_password" placeholder="Confirm Password" />
+                <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">
+                    <input [type]="passwordVisible ? 'text' : 'password'" id="confirm_password" nz-input formControlName="confirm_password"
+                        placeholder="Confirm Password" />
+                </nz-input-group>
             </nz-form-control>
         </nz-form-item>
-        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
+        <button type="submit" nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">
             Reset
         </button>
         <div class="flex flex-col items-center mt-5">

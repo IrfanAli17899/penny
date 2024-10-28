@@ -9,6 +9,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { Store } from '@ngrx/store';
 
@@ -26,6 +27,7 @@ import { AuthActions, AuthSelectors } from '../../store';
     RouterLink,
     NzSpaceModule,
     NzCheckboxModule,
+    NzIconModule,
     AsyncPipe
   ],
   templateUrl: './register.component.html',

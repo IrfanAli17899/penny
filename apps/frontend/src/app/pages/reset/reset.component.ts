@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-reset-page',
   standalone: true,
-  imports: [NzFormModule, NzButtonModule, NzInputModule, NzDividerModule, ReactiveFormsModule, RouterLink],
+  imports: [NzFormModule, NzButtonModule, NzInputModule, NzDividerModule, ReactiveFormsModule, RouterLink, NzIconModule],
   templateUrl: './reset.component.html',
 })
 

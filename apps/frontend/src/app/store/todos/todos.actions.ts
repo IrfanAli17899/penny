@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { CreateTodoInput, DeleteTodoInput, GetTodosInput, Todo, UpdateTodoInput } from './todos.models';
+import { CreateTodoInput, DeleteTodoInput, GetTodosInput, GetTodosResponse, Todo, UpdateTodoInput } from './todos.models';
 
 export const initTodos = createAction('[Todos] Init', props<GetTodosInput>());
-export const loadTodosSuccess = createAction('[Todos] Load Todos Success', props<{ todos: Todo[] }>());
+export const loadTodosSuccess = createAction('[Todos] Load Todos Success', props<GetTodosResponse>());
 export const loadTodosFailure = createAction('[Todos] Load Todos Failure', props<{ error: any }>());
 
 export const createTodo = createAction('[Todos] Create Todo', props<{ todo: CreateTodoInput }>());

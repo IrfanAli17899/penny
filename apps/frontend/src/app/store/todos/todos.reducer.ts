@@ -1,16 +1,18 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as TodosActions from './todos.actions';
-import { Todo } from './todos.models';
+import { GetTodosResponse, Todo } from './todos.models';
 
 export interface TodosState {
   todos: Todo[];
+  meta: Omit<GetTodosResponse, "data"> | null;
   loading: boolean;
   error?: string | null;
 }
 
 export const initialTodosState: TodosState = {
   todos: [],
+  meta: null,
   error: null,
   loading: false,
 };
@@ -22,9 +24,10 @@ export const todosReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(TodosActions.loadTodosSuccess, (state, { todos }) => ({
+  on(TodosActions.loadTodosSuccess, (state, { data, type, ...meta }) => ({
     ...state,
-    todos,
+    todos: data,
+    meta,
     loading: false,
     error: null
   })

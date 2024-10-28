@@ -1,8 +1,8 @@
-import { Component, inject, ViewChild, OnChanges, SimpleChanges, signal, WritableSignal, effect, computed } from '@angular/core';
+import { Component, inject, ViewChild, signal, WritableSignal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -13,8 +13,8 @@ import { CreateTodoComponent } from './components/create-todo/create-todo.compon
 
 import { Store } from '@ngrx/store';
 
-import { Todo, TodosActions, TodosSelectors } from '../../store';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { GetTodosInput, Todo, TodosActions, TodosSelectors } from '../../store';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop'; // For signal to observable conversion
 
 @Component({
@@ -23,48 +23,46 @@ import { toObservable } from '@angular/core/rxjs-interop'; // For signal to obse
   imports: [NzTableModule, NzSpaceModule, NzButtonModule, NzInputModule, NzSelectModule, NzTagModule, CreateTodoComponent, AsyncPipe, FormsModule],
   templateUrl: './todos.component.html',
 })
-export class TodosPageComponent {
+export class TodosPageComponent implements OnInit {
   store = inject(Store);
   todos$ = this.store.select(TodosSelectors.selectTodos)
   todosActionsState$ = this.store.select(TodosSelectors.selectTodosActionState)
+  todosMeta$ = this.store.select(TodosSelectors.selectTodosMeta)
   search? = signal('');
-  completed?: WritableSignal<boolean>;
+  pagination? = signal({ page: 1, limit: 10 });
+  completed?: WritableSignal<boolean | string> = signal("all");
+
   @ViewChild(CreateTodoComponent) drawer!: CreateTodoComponent;
 
-  fetchTodos() {
-    this.store.dispatch(TodosActions.initTodos({ search: this.search?.(), filters: { completed: this.completed?.() } }));
+  fetchTodos(query: GetTodosInput) {
+    this.store.dispatch(TodosActions.initTodos(query));
   }
 
   constructor() {
-    // effect(() => {
-    //   if (this.search?.() || this.completed?.()) {
-    //     this.fetchTodos();
-    //   }
-    // }, { allowSignalWrites: true });
     const searchCompleted = computed(() => ({
-      search: this.search?.(),
-      completed: this.completed?.()
+      search: this.search?.() === "" ? undefined : this.search?.(),
+      filters: {
+        completed: this.completed?.() === "all" ? undefined : this.completed?.() as boolean
+      },
+      pagination: this.pagination?.()
     }));
 
     const searchCompleted$ = toObservable(searchCompleted);
 
-    // Apply debounce and distinctUntilChanged to avoid redundant API calls
     searchCompleted$
-      .pipe(debounceTime(300), distinctUntilChanged()) // Adjust debounce time as needed
-      .subscribe(() => {
-        console.log('fetching todos');
-        this.fetchTodos();
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((props) => {
+        this.fetchTodos(props);
       });
-
-    this.fetchTodos()
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['search'] || changes['completed']) {
+  ngOnInit() {
+    this.fetchTodos({})
+  }
 
-  //     this.fetchTodos();
-  //   }
-  // }
+  onQueryParamsChange($event: NzTableQueryParams) {
+    this.pagination?.set({ page: $event.pageIndex, limit: $event.pageSize });
+  }
 
   onItemChecked(id: string, checked: boolean): void {
     this.store.dispatch(TodosActions.updateTodo({ todo: { _id: id, completed: checked } }));

@@ -8,7 +8,19 @@ export interface Todo {
   "user": string | IUser;
 }
 
-export type GetTodosInput = { search?: string; filters?: { completed?: boolean } };
+export interface GetTodosResponse {
+  "data": Todo[]
+  "total": number;
+  "page": number;
+  "limit": number;
+  "totalPages": number;
+}
+
+export type GetTodosInput = {
+  search?: string;
+  filters?: { completed?: boolean };
+  pagination?: { page: number, limit: number };
+};
 
 export type CreateTodoInput = Pick<Todo, "title" | "description">;
 export type UpdateTodoInput = Partial<Omit<Todo, "user">>;

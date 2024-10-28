@@ -2,32 +2,37 @@
 
     <nz-sider nzBreakpoint="md" [nzCollapsedWidth]="0" [nzCollapsed]="collapsed" (nzCollapsedChange)="collapsedChange()"
         nzTheme="light" [nzWidth]="250">
-        <div class="flex flex-col h-full">
-            <nz-header class="bg-transparent flex items-center px-6 mb-5">
-                <img src="images/logo.svg" alt="logo" class="invert h-8" />
-            </nz-header>
-            <ul nz-menu nzMode="inline">
-                <li nz-menu-item nzMatchRouter nzMatchRouterExact>
-                    <a routerLink="/dashboard">Todos</a>
-                </li>
-                <!-- <li nz-menu-item nzMatchRouter>
+        <nz-header class="flex items-center px-6 mb-5 bg-transparent">
+            <img src="images/logo.svg" alt="logo" class="h-8 invert" />
+        </nz-header>
+        <ul nz-menu nzMode="inline">
+            <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+                <a routerLink="/dashboard">Todos</a>
+            </li>
+            <!-- <li nz-menu-item nzMatchRouter>
                     <a routerLink="/dashboard/todos">Todos</a>
                 </li> -->
-            </ul>
-            <div class="flex-1"></div>
-            <div class="p-5">
-                <button nz-button nzType="primary" nzSize="large" nzBlock (click)="handleLogout()">Logout</button>
-            </div>
-        </div>
+        </ul>
     </nz-sider>
 
     <nz-layout>
-        <nz-header class="bg-transparent flex justify-between items-center">
-            <button nz-button nzType="text" (click)="collapsedChange()">
-                open
+        <nz-header class="flex items-center justify-between bg-transparent">
+            <button nz-button nzType="text" (click)="collapsedChange()" class="block md:hidden">
+                <span nz-icon [nzType]="collapsed?'menu':'close'"></span>
             </button>
             <h3 nz-typography class="capitalize">{{title}}</h3>
-            <nz-avatar nzSize="large" [nzText]="(user$|async)?.username"></nz-avatar>
+            <nz-avatar nzTrigger="click" nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="menu" nzSize="large"
+                nzIcon="user"></nz-avatar>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu class="w-40">
+                    <button (click)="handleLogout()">
+                        <li nz-menu-item>
+                            <span nz-icon nzType="logout"></span>
+                            Logout
+                        </li>
+                    </button>
+                </ul>
+            </nz-dropdown-menu>
         </nz-header>
 
         <nz-content class="px-10 py-5 overflow-y-auto">
