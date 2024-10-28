@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, OnChanges, SimpleChanges, signal, WritableSignal, effect, computed } from '@angular/core';
+import { Component, inject, ViewChild, OnChanges, SimpleChanges, signal, WritableSignal, effect, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 
@@ -23,7 +23,7 @@ import { toObservable } from '@angular/core/rxjs-interop'; // For signal to obse
   imports: [NzTableModule, NzSpaceModule, NzButtonModule, NzInputModule, NzSelectModule, NzTagModule, CreateTodoComponent, AsyncPipe, FormsModule],
   templateUrl: './todos.component.html',
 })
-export class TodosPageComponent {
+export class TodosPageComponent implements OnInit {
   store = inject(Store);
   todos$ = this.store.select(TodosSelectors.selectTodos)
   todosActionsState$ = this.store.select(TodosSelectors.selectTodosActionState)
@@ -36,11 +36,6 @@ export class TodosPageComponent {
   }
 
   constructor() {
-    // effect(() => {
-    //   if (this.search?.() || this.completed?.()) {
-    //     this.fetchTodos();
-    //   }
-    // }, { allowSignalWrites: true });
     const searchCompleted = computed(() => ({
       search: this.search?.(),
       completed: this.completed?.()
@@ -48,23 +43,17 @@ export class TodosPageComponent {
 
     const searchCompleted$ = toObservable(searchCompleted);
 
-    // Apply debounce and distinctUntilChanged to avoid redundant API calls
     searchCompleted$
-      .pipe(debounceTime(300), distinctUntilChanged()) // Adjust debounce time as needed
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(() => {
         console.log('fetching todos');
         this.fetchTodos();
       });
-
-    this.fetchTodos()
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['search'] || changes['completed']) {
-
-  //     this.fetchTodos();
-  //   }
-  // }
+  ngOnInit() {
+    this.fetchTodos()
+  }
 
   onItemChecked(id: string, checked: boolean): void {
     this.store.dispatch(TodosActions.updateTodo({ todo: { _id: id, completed: checked } }));

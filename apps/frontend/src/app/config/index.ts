@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'http://localhost:3000'
+export const API_BASE_URL = 'https://penny-main-backend-service-424918310479.us-central1.run.app'
