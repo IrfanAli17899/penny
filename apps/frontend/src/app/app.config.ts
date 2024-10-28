@@ -9,6 +9,8 @@ import * as fromAuth from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
 import * as fromTodos from './store/todos/todos.reducer';
 import { TodosEffects } from './store/todos/todos.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
+    provideAnimationsAsync(),
+    provideHttpClient()
   ],
 };

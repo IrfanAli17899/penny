@@ -6,21 +6,31 @@
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
                 <nz-form-label nzFor="username">Username</nz-form-label>
-                <input type="text" nzSize="large" id="username" nz-input formControlName="username"
-                    placeholder="Username" />
+                <nz-input-group nzSize="large" nzPrefixIcon="user">    
+                    <input type="text" id="username" nz-input formControlName="username" placeholder="Username" />
+                </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
-                <input nzSize="large" type="text" id="email" nz-input formControlName="email" placeholder="Email" />
+                <nz-input-group nzSize="large" nzPrefixIcon="mail">        
+                    <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />
+                </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your Password!">
                 <nz-form-label [nzXs]="24" nzFor="password">Password</nz-form-label>
-                <input type="password" nzSize="large" id="password" nz-input
+                <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">    
+                    <input type="password"  id="password" nz-input
                     [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Password" />
+                </nz-input-group>
+                <ng-template #lock>
+                    <button (click)="passwordVisible = !passwordVisible" type="button">
+                        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" nz-tooltip="Toggle password visibility"></i>
+                    </button>
+                </ng-template>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -31,7 +41,7 @@
                 </label>
             </nz-form-control>
         </nz-form-item>
-        <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large"
+        <button nzBlock="true" type="submit" nz-button [nzType]="'primary'" nzShape="round" nzSize="large"
             [nzLoading]="(authActionState$ | async)?.isLoading">
             Register
         </button>
