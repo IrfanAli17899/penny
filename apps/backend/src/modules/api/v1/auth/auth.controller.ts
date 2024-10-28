@@ -59,6 +59,21 @@ export class AuthController {
     return { message: SuccessMessage.LOGGED_OUT_SUCCESSFULLY };
   }
 
+  @Post('forgot-password')
+  async forgotPasswrd(@Body() body: ForgotPasswordDto) {
+    await this.authService.forgotPassword(body.email);
+    return { message: SuccessMessage.MESSAGE_SENT };
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() body: ResetPasswordDto, @Req() request: Request) {
+    const token = ((request.headers['authorization'] as string) || '').split(
+      ' '
+    )?.[1];
+    await this.authService.resetPassword(body.password, token);
+    return { message: SuccessMessage.PASSWORD_CHANGED_SUCCESSFULLY };
+  }
+
   setTokensInResponse(
     accessToken: string,
     refreshToken: string,
@@ -77,20 +92,5 @@ export class AuthController {
   clearTokensInResponse(response: Response) {
     response.clearCookie('accessToken');
     response.clearCookie('refreshToken');
-  }
-
-  @Post('forgot-password')
-  async forgotPasswrd(@Body() body: ForgotPasswordDto) {
-    await this.authService.forgotPassword(body.email);
-    return { message: SuccessMessage.MESSAGE_SENT };
-  }
-
-  @Post('reset-password')
-  async resetPasswrd(@Body() body: ResetPasswordDto, @Req() request: Request) {
-    const token = ((request.headers['authorization'] as string) || '').split(
-      ' '
-    )?.[1];
-    await this.authService.resetPassword(body.password, token);
-    return { message: SuccessMessage.PASSWORD_CHANGED_SUCCESSFULLY };
   }
 }

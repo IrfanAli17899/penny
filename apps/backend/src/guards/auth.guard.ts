@@ -2,12 +2,14 @@ import { Reflector } from '@nestjs/core';
 import { AuthService } from '../modules/api/v1/auth/auth.service';
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, UseGuards, SetMetadata } from '@nestjs/common';
 import { ErrorMessage } from '../constants/error-message.constant';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
         private readonly authService: AuthService,
-        private readonly reflector: Reflector
+        private readonly reflector: Reflector,
+        private readonly configService: ConfigService,
     ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -22,7 +24,7 @@ export class AuthGuard implements CanActivate {
         const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler()) || [];
 
         try {
-            request.user = await this.authService.verifyToken(accessToken);
+            request.user = await this.authService.verifyToken(accessToken, this.configService.JWT_SECRET);
             return this.hasRequiredRoles(request.user.roles, requiredRoles);
         } catch (error) {
             if (error.name === 'TokenExpiredError' && refreshToken) {
@@ -40,7 +42,7 @@ export class AuthGuard implements CanActivate {
                     maxAge: 28800000, // 8 hours
                 });
 
-                request.user = await this.authService.verifyToken(newTokens.accessToken);
+                request.user = await this.authService.verifyToken(newTokens.accessToken, this.configService.JWT_SECRET);
                 return this.hasRequiredRoles(request.user.roles, requiredRoles);
             } else if (error.name === 'TokenExpiredError') {
                 throw new UnauthorizedException(ErrorMessage.INVALID_ACCESS_TOKEN);

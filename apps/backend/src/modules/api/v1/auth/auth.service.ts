@@ -13,7 +13,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ConfigService } from '../../../../config/config.service';
 import { ErrorMessage } from '../../../../constants/error-message.constant';
-import { MailService } from '@backend/libs/nodemailer.service';
+import { MailService } from '../../../../libs/nodemailer.service';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
     @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
     private readonly configService: ConfigService,
     private readonly mailService: MailService
-  ) {}
+  ) { }
 
   async register(obj: RegisterDto) {
     const hashedPassword = await bcrypt.hash(obj.password, 10);
@@ -42,34 +42,30 @@ export class AuthService {
   private async generateAndStoreTokens(user: User) {
     const accessToken = this.createJwtToken(
       user,
+      '1h',
       this.configService.ACCESS_TOKEN_EXPIRATION
     );
     const refreshToken = this.createJwtToken(
       user,
+      '8h',
       this.configService.REFRESH_TOKEN_EXPIRATION
     );
 
-    await this.storeRefreshToken(user._id.toString(), refreshToken);
+    await this.tokenModel.create(
+      { userId: user._id, token: refreshToken },
+    );
 
     return { accessToken, refreshToken };
   }
 
-  private createJwtToken(user: User, expiresIn = '1h') {
+  private createJwtToken(user: User, expiresIn = '1h', secret: string) {
     return jwt.sign(
       {
         id: user._id,
         username: user.username,
       },
-      this.configService.JWT_SECRET,
+      secret,
       { expiresIn }
-    );
-  }
-
-  private async storeRefreshToken(userId: string, token: string) {
-    await this.tokenModel.findOneAndUpdate(
-      { userId },
-      { token },
-      { upsert: true, new: true }
     );
   }
 
@@ -84,7 +80,8 @@ export class AuthService {
       throw new NotFoundException(ErrorMessage.REFRESH_TOKEN_NOT_FOUND);
     }
 
-    const user = await this.userModel.findById(userId);
+    const user = await this.verifyToken(oldRefreshToken, this.configService.REFRESH_TOKEN_JWT_SECRET);
+
     return this.generateAndStoreTokens(user);
   }
 
@@ -92,9 +89,9 @@ export class AuthService {
     await this.tokenModel.findOneAndDelete({ userId });
   }
 
-  async verifyToken(token: string) {
-    const payload = await jwt.verify(token, this.configService.JWT_SECRET);
-    if(!payload){
+  async verifyToken(token: string, secret: string) {
+    const payload = await jwt.verify(token, secret);
+    if (!payload) {
       throw new NotFoundException(ErrorMessage.INVALID_ACCESS_TOKEN);
     }
     return await this.userModel.findById(payload.id, { password: 0 });
@@ -105,9 +102,9 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException(ErrorMessage.USER_NOT_FOUND);
     }
-    const token = this.createJwtToken(user, '10m');
+    const token = this.createJwtToken(user, '10m', this.configService.FORGOT_PASSWORD_JWT_SECRET);
     await this.tokenModel.create({ token, userId: user._id });
-    const resetPasswordUrl = `${this.configService.FONTEND_BASE_URL}/auth/reset?token=${token}`;
+    const resetPasswordUrl = `${this.configService.FRONTEND_BASE_URL}/auth/reset?token=${token}`;
 
     // Send the email with the reset password link
     await this.mailService.sendMail(
@@ -124,11 +121,11 @@ export class AuthService {
     }
     const tokenData = await this.tokenModel.findOne({ token });
     if (!tokenData) {
-      throw new NotFoundException(ErrorMessage.INVALID_ACCESS_TOKEN);
+      throw new NotFoundException(ErrorMessage.INVALID_TOKEN);
     }
-    const verifiedUser = await this.verifyToken(token);
+    const verifiedUser = await this.verifyToken(token, this.configService.FORGOT_PASSWORD_JWT_SECRET);
     if (!verifiedUser) {
-      throw new NotFoundException(ErrorMessage.INVALID_ACCESS_TOKEN);
+      throw new NotFoundException(ErrorMessage.INVALID_TOKEN);
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     await verifiedUser.updateOne({ password: hashedPassword });

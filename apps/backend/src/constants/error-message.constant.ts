@@ -2,6 +2,7 @@ export const ErrorMessage = {
   // auth-error-messages
   ACCESS_TOKEN_NOT_FOUND: 'Access token is missing',
   INVALID_ACCESS_TOKEN: 'Invalid access token',
+  INVALID_TOKEN: 'Invalid token',
   INVALID_REFRESH_TOKEN: 'Invalid refresh token or unable to refresh',
   REFRESH_TOKEN_NOT_FOUND: 'refresh token not found',
   INVALID_CREDENTIALS: 'Invalid credentials',

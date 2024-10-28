@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter());
-  app.enableCors({ origin: ["http://localhost:4200"], credentials: true, methods: 'GET,PUT,PATCH,POST,DELETE' });
+  app.enableCors({ origin: [process.env.FRONTEND_BASE_URL], credentials: true, methods: 'GET,PUT,PATCH,POST,DELETE' });
 
   //add SwaggerModule on bootstrap()
   const config = new DocumentBuilder().setTitle('API Documentation').setVersion('1.0').build();

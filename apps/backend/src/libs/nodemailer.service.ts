@@ -1,4 +1,4 @@
-import { ConfigService } from '@backend/config/config.service';
+import { ConfigService } from '../config/config.service';
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 
