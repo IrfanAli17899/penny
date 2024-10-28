@@ -12,8 +12,8 @@ export class TodosEffects {
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodosActions.initTodos),
-      switchMap(({ filters }) =>
-        this.todoService.fetchTodos({ filters }).then(todos =>
+      switchMap(({ type, ...props }) =>
+        this.todoService.fetchTodos(props).then(todos =>
           TodosActions.loadTodosSuccess({ todos: todos.data })
         ).catch(error =>
           TodosActions.loadTodosFailure({ error: error.message })
