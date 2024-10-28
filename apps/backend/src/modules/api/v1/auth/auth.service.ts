@@ -42,13 +42,13 @@ export class AuthService {
   private async generateAndStoreTokens(user: User) {
     const accessToken = this.createJwtToken(
       user,
-      '1h',
-      this.configService.ACCESS_TOKEN_EXPIRATION
+      this.configService.ACCESS_TOKEN_EXPIRATION,
+      this.configService.JWT_SECRET
     );
     const refreshToken = this.createJwtToken(
       user,
-      '8h',
-      this.configService.REFRESH_TOKEN_EXPIRATION
+      this.configService.REFRESH_TOKEN_EXPIRATION,
+      this.configService.REFRESH_TOKEN_JWT_SECRET
     );
 
     await this.tokenModel.create(
