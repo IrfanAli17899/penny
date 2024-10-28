@@ -29,10 +29,8 @@ export class ResetPageComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.pipe(
-      map(params => params.get('token'))
-    ).subscribe(token => {
-      this.token = token;
+    this.route.queryParamMap.subscribe(params => {
+      this.token = params.get('token');
     });
   }
 
