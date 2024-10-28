@@ -3,18 +3,15 @@
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your password!">
                 <nz-form-label nzFor="password">Password</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="lock">
-                    <input type="password" id="password" nz-input formControlName="password" placeholder="Password" />
-                </nz-input-group>
+                <input nzSize="large" type="password" id="password" nz-input formControlName="password"
+                    placeholder="Password" />
             </nz-form-control>
         </nz-form-item>
         <nz-form-item class="mb-5">
             <nz-form-control nzErrorTip="Please input your password again!">
                 <nz-form-label nzFor="confirm_password">Confirm Password</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="lock">
-                    <input type="confirm_password" id="confirm_password" nz-input formControlName="confirm_password"
-                        placeholder="Confirm Password" />
-                </nz-input-group>
+                <input nzSize="large" type="confirm_password" id="confirm_password" nz-input
+                    formControlName="confirm_password" placeholder="Confirm Password" />
             </nz-form-control>
         </nz-form-item>
         <button nzBlock="true" nz-button [nzType]="'primary'" nzShape="round" nzSize="large" [nzLoading]="isLoading">

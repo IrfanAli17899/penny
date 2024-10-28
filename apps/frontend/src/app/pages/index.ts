@@ -1,4 +1,3 @@
-export { DashboardPageComponent } from './dashboard/dashboard.component'
 export { TodosPageComponent } from './todos/todos.component'
 
 export { LoginPageComponent } from './login/login.component'

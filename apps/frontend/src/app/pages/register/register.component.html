@@ -6,31 +6,21 @@
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
                 <nz-form-label nzFor="username">Username</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="user">
-                    <input type="text" id="username" nz-input formControlName="username" placeholder="Username" />
-                </nz-input-group>
+                <input type="text" nzSize="large" id="username" nz-input formControlName="username"
+                    placeholder="Username" />
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="mail">
-                    <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />
-                </nz-input-group>
+                <input nzSize="large" type="text" id="email" nz-input formControlName="email" placeholder="Email" />
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your Password!">
                 <nz-form-label [nzXs]="24" nzFor="password">Password</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
-                    <input type="password" id="password" nz-input [type]="passwordVisible ? 'text' : 'password'"
-                        formControlName="password" placeholder="Password" />
-                </nz-input-group>
-                <ng-template #suffixTemplate>
-                    <button (click)="passwordVisible = !passwordVisible">
-                        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"></span>
-                    </button>
-                </ng-template>
+                <input type="password" nzSize="large" id="password" nz-input
+                    [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Password" />
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>

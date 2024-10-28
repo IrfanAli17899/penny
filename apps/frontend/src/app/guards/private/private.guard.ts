@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
+
 import { Store } from '@ngrx/store';
-import { selectIsAuthenticated } from '../../store/auth/auth.selectors';
-import * as AuthActions from '../../store/auth/auth.actions';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
+
+import { AuthActions, AuthSelectors } from '../../store';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class PrivateGuard implements CanActivate {
     return this.actions$.pipe(
       ofType(AuthActions.checkAuthenticationSuccess, AuthActions.checkAuthenticationFailure),
       take(1),
-      switchMap(() => this.store.select(selectIsAuthenticated)),
+      switchMap(() => this.store.select(AuthSelectors.selectIsAuthenticated)),
       take(1),
       map(isAuthenticated => {
         if (isAuthenticated) {

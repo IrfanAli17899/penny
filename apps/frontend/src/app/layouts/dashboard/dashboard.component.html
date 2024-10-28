@@ -8,11 +8,11 @@
             </nz-header>
             <ul nz-menu nzMode="inline">
                 <li nz-menu-item nzMatchRouter nzMatchRouterExact>
-                    <a routerLink="/dashboard">Dashboard</a>
+                    <a routerLink="/dashboard">Todos</a>
                 </li>
-                <li nz-menu-item nzMatchRouter>
+                <!-- <li nz-menu-item nzMatchRouter>
                     <a routerLink="/dashboard/todos">Todos</a>
-                </li>
+                </li> -->
             </ul>
             <div class="flex-1"></div>
             <div class="p-5">
@@ -24,7 +24,7 @@
     <nz-layout>
         <nz-header class="bg-transparent flex justify-between items-center">
             <button nz-button nzType="text" (click)="collapsedChange()">
-                <span nz-icon [nzType]="collapsed ? 'menu-unfold' : 'menu-fold'"></span>
+                open
             </button>
             <h3 nz-typography class="capitalize">{{title}}</h3>
             <nz-avatar nzSize="large" [nzText]="(user$|async)?.username"></nz-avatar>
