@@ -54,6 +54,8 @@ jobs:
       # Lint, test, and build affected applications
       # - run: npx nx affected -t lint test build
       - run: npx nx run-many -t build -p frontend backend
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
 
 
       - name: Build, Push, and Deploy Docker Images
