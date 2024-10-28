@@ -58,6 +58,11 @@ jobs:
 
       - name: Build, Push, and Deploy Docker Images
         run: |
+          declare -A ENV_VARS
+          ENV_VARS[frontend]="API_BASE_URL=${{ secrets.API_BASE_URL }}"
+          ENV_VARS[backend]="MONGOOS_URL=${{ secrets.MONGOOS_URL }} JWT_SECRET=${{ secrets.JWT_SECRET }}"
+
+
           for app in frontend backend; do
             app_name="${{ secrets.APP_NAME }}-${{ github.ref_name }}-$app"
             image="gcr.io/${{ secrets.PROJECT_ID }}/${app_name}:latest"
@@ -68,9 +73,5 @@ jobs:
             docker push $image
       
             echo "Deploying $app to Cloud Run..."
-            # Create a list of environment variables to set
-            # env_vars=$(cat .env.$app | xargs)
-      
-            # Deploy to Cloud Run
-            gcloud run deploy $service_name --image $image --region=${{ secrets.REGION }} --quiet
+            gcloud run deploy $service_name --image $image --region=${{ secrets.REGION }} --quiet --set-env-vars="${ENV_VARS[$app]}"
           done
