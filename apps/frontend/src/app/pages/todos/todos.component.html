@@ -10,17 +10,17 @@
             <app-create-todo *nzSpaceItem />
         </nz-space>
     </div>
-    <nz-table #basicTable [nzData]="(todos$ | async) ?? []" [nzLoading]="(todosActionsState$ | async)?.loading"
+    <nz-table class="truncate" #basicTable [nzData]="(todos$ | async) ?? []" [nzLoading]="(todosActionsState$ | async)?.loading"
         [nzFrontPagination]="false" [nzTotal]="(todosMeta$ | async)?.total || 0"
         [nzPageSize]="(todosMeta$ | async)?.limit || 0" [nzPageIndex]="(todosMeta$ | async)?.page || 0"
         (nzQueryParams)="onQueryParamsChange($event)" [nzScroll]="{ x: 'true' }">
         <thead>
             <tr>
                 <th nzWidth="50px"></th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th nzAlign="right" nzRight></th>
+                <th nzWidth="200px">Title</th>
+                <th nzWidth="200px">Description</th>
+                <th nzWidth="100px">Status</th>
+                <th nzWidth="200px"></th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
                         {{ data.completed ? 'Completed' : 'Pending' }}
                     </nz-tag>
                 </td>
-                <td nzAlign="right" nzRight>
+                <td>
                     <nz-space>
                         <button *nzSpaceItem nz-button (click)="editTodo(data)">Edit</button>
                         <button *nzSpaceItem nz-button nzDanger nzType="primary"
