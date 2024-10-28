@@ -18,7 +18,7 @@ export class ConfigService {
   readonly FORGOT_PASSWORD_JWT_SECRET = this.envsService.get('FORGOT_PASSWORD_JWT_SECRET');
 
   readonly MONGOOSE_URI = this.envsService.get('MONGOOSE_URI');
-  readonly FRONTEND_BASE_URL = this.envsService.get('FONTEND_BASE_URL');
+  readonly FRONTEND_BASE_URL = this.envsService.get('FRONTEND_BASE_URL');
 
   readonly SMTP_HOST = this.envsService.get('SMTP_HOST');
   readonly SMTP_PORT = this.envsService.get('SMTP_PORT');
