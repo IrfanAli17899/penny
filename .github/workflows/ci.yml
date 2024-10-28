@@ -71,5 +71,5 @@ jobs:
             # env_vars=$(cat .env.$app | xargs)
       
             # Deploy to Cloud Run
-            gcloud run deploy $app_name --image $image --quiet
+            gcloud run deploy $app_name --image $image --region=${{ secrets.REGION }} --platform-managed --quiet
           done
