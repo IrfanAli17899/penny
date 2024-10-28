@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async forgetPassword(props: ForgetPasswordInput) {
-    await this.apiService.api.post('/auth/forget-password', props);
+    await this.apiService.api.post('/auth/forgot-password', props);
     return true;
   }
 
