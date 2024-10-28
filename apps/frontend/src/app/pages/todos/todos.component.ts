@@ -28,11 +28,15 @@ export class TodosPageComponent implements OnInit {
   todos$ = this.store.select(TodosSelectors.selectTodos)
   todosActionsState$ = this.store.select(TodosSelectors.selectTodosActionState)
   search? = signal('');
-  completed?: WritableSignal<boolean>;
+  completed?: WritableSignal<boolean | string> = signal("all");
   @ViewChild(CreateTodoComponent) drawer!: CreateTodoComponent;
 
   fetchTodos() {
-    this.store.dispatch(TodosActions.initTodos({ search: this.search?.(), filters: { completed: this.completed?.() } }));
+    this.store.dispatch(TodosActions.initTodos({
+      search: this.search?.(), filters: {
+        completed: this.completed?.() === "all" ? undefined : this.completed?.() as boolean
+      }
+    }));
   }
 
   constructor() {

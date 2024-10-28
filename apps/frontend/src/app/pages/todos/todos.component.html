@@ -3,7 +3,7 @@
         <input [(ngModel)]="search"  class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
         <nz-space>
             <nz-select [(ngModel)]="completed" *nzSpaceItem nzSize="large" class="w-32">
-                <nz-option nzValue="" nzLabel="All"></nz-option>
+                <nz-option nzValue="all" nzLabel="All"></nz-option>
                 <nz-option nzValue="true" nzLabel="Completed"></nz-option>
                 <nz-option nzValue="false" nzLabel="Pending"></nz-option>
             </nz-select>
