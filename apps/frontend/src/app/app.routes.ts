@@ -3,10 +3,9 @@ import {
     LoginPageComponent,
     ForgetPageComponent,
     RegisterPageComponent,
-    TodosPageComponent,
-    HomePageComponent,
     ResetPageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    TodosPageComponent
 } from './pages';
 import { AuthLayoutComponent, DashboardLayoutComponent } from './layouts';
 import { PrivateGuard, PublicGuard } from './guards';
@@ -14,7 +13,8 @@ import { PrivateGuard, PublicGuard } from './guards';
 export const appRoutes: Route[] = [
     {
         path: "",
-        component: HomePageComponent,
+        redirectTo: "/dashboard",
+        pathMatch: "full"
     },
     {
         path: "auth",
@@ -32,7 +32,7 @@ export const appRoutes: Route[] = [
         component: DashboardLayoutComponent,
         canActivate: [PrivateGuard],
         children: [
-            { path: "", component: TodosPageComponent }
+            { path: "", component: TodosPageComponent },
         ]
     },
     { path: "**", component: NotFoundPageComponent }
