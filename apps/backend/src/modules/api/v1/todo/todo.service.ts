@@ -25,6 +25,7 @@ export class TodoService {
     return await paginate(this.todoModel, obj.pagination.page, obj.pagination.limit, {
       user: user._id,
       ...removeUndefined({
+        title: obj.search ? { $regex: obj.search, $options: 'i' } : undefined,
         completed: obj.filters.completed
       })
     })
