@@ -7,7 +7,7 @@ export class Token extends Document {
   @Prop({ required: true })
   userId: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   token: string;
 
   @Prop({ default: Date.now })
