@@ -5,7 +5,7 @@ const envVarPlugin = {
 
     const envVars = {};
 
-    envVars['API_BASE_URL'] = process.env.NODE_ENV;
+    envVars['API_BASE_URL'] = process.env.API_BASE_URL
 
     options.define['process.env'] = JSON.stringify(envVars);
   },
