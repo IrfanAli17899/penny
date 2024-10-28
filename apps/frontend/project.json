@@ -27,8 +27,7 @@
           }
         ],
         "styles": [
-          "apps/frontend/src/styles.css",
-          "apps/frontend/src/theme.less"
+          "apps/frontend/src/styles.css"
         ],
         "scripts": []
       },
