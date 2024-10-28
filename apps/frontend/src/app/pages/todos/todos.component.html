@@ -1,5 +1,5 @@
 <div>
-    <div class="flex justify-between items-center mb-5">
+    <div class="flex items-center justify-between mb-5">
         <input [(ngModel)]="search"  class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
         <nz-space>
             <nz-select [(ngModel)]="completed" *nzSpaceItem nzSize="large" class="w-32">
@@ -26,7 +26,7 @@
             <tr>
                 <td [nzChecked]="data.completed" [nzLabel]="data.title"
                     (nzCheckedChange)="onItemChecked(data._id, $event)"></td>
-                <td class="capitalize font-semibold" [class.line-through]="data.completed">{{ data.title }}</td>
+                <td class="font-semibold capitalize" [class.line-through]="data.completed">{{ data.title }}</td>
                 <td>{{ data.description }}</td>
                 <td>
                     <nz-tag [nzColor]="data.completed ? 'green' : 'red'">

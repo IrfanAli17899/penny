@@ -5,11 +5,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer'
 import { Store } from '@ngrx/store';
-import { selectTodosActionState } from 'apps/frontend/src/app/store/todos/todos.selectors';
+import { TodosSelectors, Todo, TodosActions } from '../../../../store';
 import { AsyncPipe } from '@angular/common';
-import * as TodoActions from '../../../../store/todos/todos.actions'
 import { Actions, ofType } from '@ngrx/effects';
-import { Todo } from 'apps/frontend/src/app/store/todos/todos.models';
 import { merge } from 'rxjs';
 
 @Component({
@@ -23,7 +21,7 @@ export class CreateTodoComponent {
   editId: string | null = null;
   private store = inject(Store)
   actions$ = inject(Actions);
-  todosActionState$ = this.store.select(selectTodosActionState);
+  todosActionState$ = this.store.select(TodosSelectors.selectTodosActionState);
 
   createForm = new FormGroup({
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -41,7 +39,6 @@ export class CreateTodoComponent {
   }
 
   close(): void {
-    console.log("🚀 ~ CreateTodoComponent ~ close ~ close:")
     this.createForm.reset();
     this.editId = null;
     this.visible = false;
@@ -49,8 +46,8 @@ export class CreateTodoComponent {
 
   constructor() {
     merge(
-      this.actions$.pipe(ofType(TodoActions.createTodoSuccess)),
-      this.actions$.pipe(ofType(TodoActions.updateTodoSuccess))
+      this.actions$.pipe(ofType(TodosActions.createTodoSuccess)),
+      this.actions$.pipe(ofType(TodosActions.updateTodoSuccess))
     ).subscribe(() => this.close());
   }
 
@@ -59,10 +56,10 @@ export class CreateTodoComponent {
     if (this.createForm.valid) {
       const todo = this.createForm.getRawValue();
       if (this.editId) {
-        this.store.dispatch(TodoActions.updateTodo({ todo: { ...todo, _id: this.editId } }));
+        this.store.dispatch(TodosActions.updateTodo({ todo: { ...todo, _id: this.editId } }));
         return;
       }
-      this.store.dispatch(TodoActions.createTodo({ todo }));
+      this.store.dispatch(TodosActions.createTodo({ todo }));
     } else {
       Object.values(this.createForm.controls).forEach(control => {
         if (control.invalid) {
