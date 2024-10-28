@@ -4,4 +4,5 @@ variable "region" {}
 variable "app_name" {}
 variable "frontend_container_image" {}
 variable "backend_container_image" {}
-variable "domain_name" {}
+variable "frontend_domain" {}
+variable "backend_domain" {}

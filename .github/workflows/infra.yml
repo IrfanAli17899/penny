@@ -26,7 +26,8 @@ jobs:
       TF_VAR_environment: ${{ github.ref_name }}  # Set environment dynamically from branch name
       TF_VAR_frontend_container_image: ${{ secrets.FRONTEND_CONTAINER_IMAGE }}
       TF_VAR_backend_container_image: ${{ secrets.BACKEND_CONTAINER_IMAGE }}
-      TF_VAR_domain_name: ${{ secrets.DOMAIN_NAME }}
+      TF_VAR_frontend_domain: ${{ secrets.FRONTEND_DOMAIN }}
+      TF_VAR_backend_domain: ${{ secrets.BACKEND_DOMAIN }}
 
     steps:
       - name: Checkout code

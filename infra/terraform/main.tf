@@ -44,8 +44,8 @@ module "backend" {
   container_image  = var.backend_container_image
   vpc_connector_id = module.networking.connector_id
   service_account  = google_service_account.backend_sa.email
-  invoker          = "serviceAccount:${google_service_account.frontend_sa.email}"
-  ingress          = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  invoker          = "allUsers"
+  ingress          = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 }
 
 module "frontend_lb" {
@@ -56,6 +56,16 @@ module "frontend_lb" {
   region                 = var.region
   service_name           = "frontend"
   cloud_run_service_name = module.frontend.service_name
+}
+
+module "backend_lb" {
+  source                 = "./modules/load_balancer"
+  app_name               = var.app_name
+  environment            = var.environment
+  project_id             = var.project_id
+  region                 = var.region
+  service_name           = "backend"
+  cloud_run_service_name = module.backend.service_name
 }
 
 
@@ -69,7 +79,7 @@ resource "google_compute_managed_ssl_certificate" "lb_cert" {
   project = var.project_id
 
   managed {
-    domains = [var.domain_name]
+    domains = [var.frontend_domain, var.backend_domain]
   }
 }
 
@@ -86,13 +96,23 @@ resource "google_compute_url_map" "url_map" {
   default_service = module.frontend_lb.backend_service_id
 
   host_rule {
-    hosts        = [var.domain_name]
-    path_matcher = "main"
+    hosts        = [var.frontend_domain]
+    path_matcher = "frontend"
+  }
+
+  host_rule {
+    hosts        = [var.backend_domain]
+    path_matcher = "backend"
   }
 
   path_matcher {
-    name            = "main"
+    name            = "frontend"
     default_service = module.frontend_lb.backend_service_id
+  }
+
+   path_matcher {
+    name            = "backend"
+    default_service = module.backend_lb.backend_service_id
   }
 }
 
