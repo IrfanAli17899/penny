@@ -1,0 +1,49 @@
+@import "../../../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@secondary-color: #2c3c54;
+
+@primary-color: #FFCA1A;
+@border-radius-base: 5px;
+
+@form-item-margin-bottom: 5px;
+
+@btn-primary-color: @secondary-color;
+
+.ant-form-item-label {
+    @apply font-semibold;
+}
+
+.ant-input, .ant-select-selector{
+    @apply !rounded-full;
+}
+
+.ant-input-affix-wrapper {
+    @apply rounded-full;
+
+    .ant-input {
+        @apply rounded-none;
+    }
+}
+
+html,
+body {
+    @apply w-full h-full p-0 m-0;
+}
+
+* {
+    @apply box-border;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply !m-0 !p-0;
+}

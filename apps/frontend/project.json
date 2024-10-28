@@ -32,7 +32,7 @@
           }
         ],
         "styles": [
-          "apps/frontend/src/styles.css"
+          "apps/frontend/src/styles.less"
         ],
         "scripts": []
       },
