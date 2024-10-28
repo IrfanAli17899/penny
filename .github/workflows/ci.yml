@@ -61,6 +61,7 @@ jobs:
           for app in frontend backend; do
             app_name="${{ secrets.APP_NAME }}-${{ github.ref_name }}-$app"
             image="gcr.io/${{ secrets.PROJECT_ID }}/${app_name}:latest"
+            service_name="$app_name-service"
             
             echo "Building Docker image for $app..."
             docker build -t $image --build-arg APP=$app -f apps/$app/Dockerfile .
@@ -71,5 +72,5 @@ jobs:
             # env_vars=$(cat .env.$app | xargs)
       
             # Deploy to Cloud Run
-            gcloud run deploy $app_name --image $image --region=${{ secrets.REGION }} --quiet
+            gcloud run deploy $service_name --image $image --region=${{ secrets.REGION }} --quiet
           done
