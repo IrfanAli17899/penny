@@ -11,5 +11,5 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
   templateUrl: './auth.component.html',
 })
 export class AuthLayoutComponent {
-  array = [1, 2, 3, 4];
+  array = ["images/carousel_1.jpg", "images/carousel_2.jpg", "images/carousel_3.jpg"];
 }

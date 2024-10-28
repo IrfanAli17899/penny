@@ -24,9 +24,9 @@
             <nz-avatar nzTrigger="click" nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="menu" nzSize="large"
                 nzIcon="user"></nz-avatar>
             <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu class="w-40">
+                <ul nz-menu>
                     <button (click)="handleLogout()">
-                        <li nz-menu-item>
+                        <li class="w-40" nz-menu-item>
                             <span nz-icon nzType="logout"></span>
                             Logout
                         </li>

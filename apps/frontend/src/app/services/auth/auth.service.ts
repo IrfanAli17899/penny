@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { IUser, LoginInput, RegisterInput } from '../../store/auth/auth.models';
+import { ForgetPasswordInput, IUser, LoginInput, RegisterInput, ResetPasswordInput } from '../../store/auth/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +26,16 @@ export class AuthService {
 
   async logout() {
     await this.apiService.api.delete('/auth/logout');
+    return true;
+  }
+
+  async forgetPassword(props: ForgetPasswordInput) {
+    await this.apiService.api.post('/auth/forget-password', props);
+    return true;
+  }
+
+  async resetPassword({ password, token }: ResetPasswordInput) {
+    await this.apiService.api.post('/auth/reset-password', { password }, { headers: { Authorization: `Bearer ${token}` } });
     return true;
   }
 }
