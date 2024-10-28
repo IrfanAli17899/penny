@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://penny-main-backend-service-424918310479.us-central1.run.app'
+export const API_BASE_URL = process.env["API_BASE_URL"];
