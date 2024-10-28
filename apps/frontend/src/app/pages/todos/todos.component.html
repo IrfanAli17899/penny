@@ -1,6 +1,6 @@
 <div>
     <div class="flex items-center justify-between mb-5">
-        <input [(ngModel)]="search"  class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
+        <input [(ngModel)]="search" class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
         <nz-space>
             <nz-select [(ngModel)]="completed" *nzSpaceItem nzSize="large" class="w-32">
                 <nz-option nzValue="all" nzLabel="All"></nz-option>
@@ -11,7 +11,9 @@
         </nz-space>
     </div>
     <nz-table #basicTable [nzData]="(todos$ | async) ?? []" [nzLoading]="(todosActionsState$ | async)?.loading"
-        nzShowPagination="false" [nzScroll]="{ x: 'true' }">
+        [nzFrontPagination]="false" [nzTotal]="(todosMeta$ | async)?.total || 0"
+        [nzPageSize]="(todosMeta$ | async)?.limit || 0" [nzPageIndex]="(todosMeta$ | async)?.page || 0"
+        (nzQueryParams)="onQueryParamsChange($event)" [nzScroll]="{ x: 'true' }">
         <thead>
             <tr>
                 <th nzWidth="50px"></th>
@@ -36,7 +38,8 @@
                 <td nzAlign="right" nzRight>
                     <nz-space>
                         <button *nzSpaceItem nz-button (click)="editTodo(data)">Edit</button>
-                        <button *nzSpaceItem nz-button nzDanger nzType="primary" (click)="deleteTodo(data._id)">Delete</button>
+                        <button *nzSpaceItem nz-button nzDanger nzType="primary"
+                            (click)="deleteTodo(data._id)">Delete</button>
                     </nz-space>
                 </td>
             </tr>
