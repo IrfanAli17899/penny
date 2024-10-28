@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch backend",
+            "request": "launch",
+            "type": "node",
+            "runtimeExecutable": "npx",
+            "runtimeVersion": "20.18.0",
+            "runtimeArgs": [
+                "nx",
+                "serve",
+                "backend"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
