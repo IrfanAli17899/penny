@@ -8,7 +8,7 @@ export class Token extends Document {
   userId: string;
 
   @Prop({ required: true, unique: true })
-  refreshToken: string;
+  token: string;
 
   @Prop({ default: Date.now })
   createdAt: Date;
