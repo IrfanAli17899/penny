@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ConfigService } from '../../../../config/config.service';
@@ -54,7 +54,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response
   ) {
     const userId = request.user.id;
-    await this.authService.invalidateRefreshToken(userId);
+    await this.authService.invalidateRefreshToken(userId, request.cookies.refreshToken);
     this.clearTokensInResponse(response);
     return { message: SuccessMessage.LOGGED_OUT_SUCCESSFULLY };
   }

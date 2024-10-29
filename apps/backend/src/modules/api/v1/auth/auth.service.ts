@@ -85,8 +85,8 @@ export class AuthService {
     return this.generateAndStoreTokens(user);
   }
 
-  async invalidateRefreshToken(userId: string) {
-    await this.tokenModel.findOneAndDelete({ userId });
+  async invalidateRefreshToken(userId: string, token: string) {
+    await this.tokenModel.findOneAndDelete({ userId, token });
   }
 
   async verifyToken(token: string, secret: string) {
