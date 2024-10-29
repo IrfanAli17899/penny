@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, signal, WritableSignal, computed, OnInit } from '@angular/core';
+import { Component, inject, ViewChild, signal, WritableSignal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 
@@ -14,16 +14,26 @@ import { CreateTodoComponent } from './components/create-todo/create-todo.compon
 import { Store } from '@ngrx/store';
 
 import { GetTodosInput, Todo, TodosActions, TodosSelectors } from '../../store';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop'; // For signal to observable conversion
 
 @Component({
   selector: 'app-todos-page',
   standalone: true,
-  imports: [NzTableModule, NzSpaceModule, NzButtonModule, NzInputModule, NzSelectModule, NzTagModule, CreateTodoComponent, AsyncPipe, FormsModule],
+  imports: [
+    NzTableModule,
+    NzSpaceModule,
+    NzButtonModule,
+    NzInputModule,
+    NzSelectModule,
+    NzTagModule,
+    CreateTodoComponent,
+    AsyncPipe,
+    FormsModule
+  ],
   templateUrl: './todos.component.html',
 })
-export class TodosPageComponent implements OnInit {
+export class TodosPageComponent {
   store = inject(Store);
   todos$ = this.store.select(TodosSelectors.selectTodos)
   todosActionsState$ = this.store.select(TodosSelectors.selectTodosActionState)
@@ -56,12 +66,10 @@ export class TodosPageComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-    this.fetchTodos({})
-  }
-
   onQueryParamsChange($event: NzTableQueryParams) {
-    this.pagination?.set({ page: $event.pageIndex, limit: $event.pageSize });
+    if ($event.pageSize && $event.pageIndex) {
+      this.pagination?.set({ page: $event.pageIndex, limit: $event.pageSize });
+    }
   }
 
   onItemChecked(id: string, checked: boolean): void {
