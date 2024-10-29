@@ -1,12 +1,14 @@
 <div class="flex items-center justify-center h-full p-5">
     <form class="w-full sm:w-96" nz-form [formGroup]="resetForm" (ngSubmit)="submitForm()">
         @if (resetPassword) {
-        <nz-result nzStatus="success" nzTitle="Password Reset Successfully!"
-            nzSubTitle="Go back to login!">
+        <nz-result nzStatus="success" nzTitle="Password Reset Successfully!" nzSubTitle="Go back to login!">
         </nz-result>
         }@else{
+        @if(error){
+        <nz-alert nzType="error" nzCloseable [nzMessage]="error || ''"></nz-alert>
+        }
         <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your 6 digit password! ">
+            <nz-form-control [nzErrorTip]="getErrorMessage(resetForm, 'password')">
                 <nz-form-label nzFor="password">Password</nz-form-label>
                 <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">
                     <input [type]="passwordVisible ? 'text' : 'password'" id="password" nz-input
@@ -21,7 +23,7 @@
             </nz-form-control>
         </nz-form-item>
         <nz-form-item class="mb-5">
-            <nz-form-control nzErrorTip="Please input your 6 digit password again!">
+            <nz-form-control [nzErrorTip]="getErrorMessage(resetForm, 'confirm_password')">
                 <nz-form-label nzFor="confirm_password">Confirm Password</nz-form-label>
                 <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">
                     <input [type]="passwordVisible ? 'text' : 'password'" id="confirm_password" nz-input

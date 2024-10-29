@@ -5,8 +5,11 @@
             nzSubTitle="Please check your email to reset your password!">
         </nz-result>
         }@else{
+        @if(error){
+        <nz-alert nzType="error" nzCloseable [nzMessage]="error || ''"></nz-alert>
+        }
         <nz-form-item class="mb-5">
-            <nz-form-control nzErrorTip="Please input your email!">
+            <nz-form-control nzErrorTip="Please input your valid email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
                 <nz-input-group nzSize="large" nzPrefixIcon="mail">
                     <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />

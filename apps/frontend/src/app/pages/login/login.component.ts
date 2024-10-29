@@ -8,6 +8,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
@@ -25,7 +26,8 @@ import { AuthActions, AuthSelectors } from '../../store';
     ReactiveFormsModule,
     RouterLink,
     NzSpaceModule,
-    NzIconModule, 
+    NzIconModule,
+    NzAlertModule,
     AsyncPipe
   ],
   templateUrl: './login.component.html',

@@ -1,10 +1,10 @@
 import { JoiSchema, JoiSchemaOptions } from 'nestjs-joi';
-import * as joi from 'joi';
+import { passwordValidation } from '@backend/common/dto/password.dto';
 
 @JoiSchemaOptions({
   allowUnknown: false,
 })
 export class ResetPasswordDto {
-  @JoiSchema(joi.string().required())
+  @JoiSchema(passwordValidation)
   password: string;
 }

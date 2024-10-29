@@ -10,10 +10,13 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 import { Store } from '@ngrx/store';
 
 import { AuthActions, AuthSelectors } from '../../store';
+import { CustomValidators, FormBase, ValidationMessagesService } from '../../utils/password-validation.service';
+
 
 @Component({
   selector: 'app-register-page',
@@ -28,26 +31,34 @@ import { AuthActions, AuthSelectors } from '../../store';
     NzSpaceModule,
     NzCheckboxModule,
     NzIconModule,
+    NzAlertModule,
     AsyncPipe
   ],
   templateUrl: './register.component.html',
 })
 
-export class RegisterPageComponent {
+export class RegisterPageComponent extends FormBase {
   private store = inject(Store)
   authActionState$ = this.store.select(AuthSelectors.selectAuthActionState);
   passwordVisible = false;
 
+  constructor(validationMessages: ValidationMessagesService) {
+    super(validationMessages);
+  }
+
   registerForm = new FormGroup({
     username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(6)] }),
+    password: new FormControl('', { nonNullable: true, validators: [Validators.required, CustomValidators.passwordStrength()] }),
+    confirm_password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     conditions: new FormControl(false, { nonNullable: true, validators: [Validators.requiredTrue] }),
+  }, {
+    validators: CustomValidators.passwordMatch('password', 'confirm_password')
   });
 
   async submitForm() {
     if (this.registerForm.valid) {
-      const { conditions, ...credentials } = this.registerForm.getRawValue();
+      const { conditions, confirm_password, ...credentials } = this.registerForm.getRawValue();
       this.store.dispatch(AuthActions.register({ credentials }));
     } else {
       Object.values(this.registerForm.controls).forEach(control => {

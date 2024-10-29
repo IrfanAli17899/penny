@@ -1,5 +1,6 @@
 import { JoiSchema, JoiSchemaOptions } from 'nestjs-joi';
 import * as joi from 'joi';
+import { passwordValidation } from '@backend/common/dto/password.dto';
 
 @JoiSchemaOptions({
     allowUnknown: false,
@@ -7,11 +8,11 @@ import * as joi from 'joi';
 export class RegisterDto {
     @JoiSchema(joi.string().required())
     username: string;
-    
+
     @JoiSchema(joi.string().email().required())
     email: string;
 
-    @JoiSchema(joi.string().required())
+    @JoiSchema(passwordValidation)
     password: string;
 
 }

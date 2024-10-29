@@ -1,36 +1,46 @@
 <div class="flex items-center justify-center h-full p-5">
     <form class="w-full sm:w-96" nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
         @if((authActionState$ | async)?.error){
-        <p class="text-rose-500">{{(authActionState$ | async)?.error}}</p>
+        <nz-alert nzType="error" nzCloseable [nzMessage]="(authActionState$ | async)?.error || ''"></nz-alert>
         }
         <nz-form-item>
             <nz-form-control nzErrorTip="Please input your username!">
                 <nz-form-label nzFor="username">Username</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="user">    
+                <nz-input-group nzSize="large" nzPrefixIcon="user">
                     <input type="text" id="username" nz-input formControlName="username" placeholder="Username" />
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your email!">
+            <nz-form-control nzErrorTip="Please input your valid email!">
                 <nz-form-label nzFor="email">Email</nz-form-label>
-                <nz-input-group nzSize="large" nzPrefixIcon="mail">        
+                <nz-input-group nzSize="large" nzPrefixIcon="mail">
                     <input type="text" id="email" nz-input formControlName="email" placeholder="Email" />
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your 6 digit password! ">
-                <nz-form-label [nzXs]="24" nzFor="password">Password</nz-form-label>
-                <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">    
-                    <input type="password"  id="password" nz-input
-                    [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Password" />
+            <nz-form-control [nzErrorTip]="getErrorMessage(registerForm, 'password')">
+                <nz-form-label nzFor="password">Password</nz-form-label>
+                <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">
+                    <input [type]="passwordVisible ? 'text' : 'password'" id="password" nz-input
+                        formControlName="password" placeholder="Password" />
                 </nz-input-group>
                 <ng-template #lock>
                     <button (click)="passwordVisible = !passwordVisible" type="button">
-                        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" nz-tooltip="Toggle password visibility"></i>
+                        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            nz-tooltip="Toggle password visibility"></i>
                     </button>
                 </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control [nzErrorTip]="getErrorMessage(registerForm, 'confirm_password')">
+                <nz-form-label nzFor="confirm_password">Confirm Password</nz-form-label>
+                <nz-input-group nzSize="large" [nzSuffix]="lock" nzPrefixIcon="lock">
+                    <input [type]="passwordVisible ? 'text' : 'password'" id="confirm_password" nz-input
+                        formControlName="confirm_password" placeholder="Confirm Password" />
+                </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
