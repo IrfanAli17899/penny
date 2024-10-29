@@ -9,6 +9,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { Store } from '@ngrx/store';
@@ -28,6 +29,7 @@ import { AuthActions, AuthSelectors } from '../../store';
     NzIconModule,
     AsyncPipe,
     NzButtonModule,
+    NzSpaceModule
   ],
   templateUrl: './dashboard.component.html',
 })

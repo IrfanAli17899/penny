@@ -21,8 +21,12 @@
                 <span nz-icon [nzType]="collapsed?'menu':'close'"></span>
             </button>
             <h3 nz-typography class="capitalize">{{title}}</h3>
-            <nz-avatar nzTrigger="click" nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="menu" nzSize="large"
-                nzIcon="user"></nz-avatar>
+            <nz-space>
+                <nz-avatar *nzSpaceItem nzTrigger="click" nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="menu"
+                    nzSize="large" nzIcon="user"></nz-avatar>
+                <p nz-typography *nzSpaceItem class="capitalize">
+                    <strong>{{(user$|async)?.username}}</strong></p>
+            </nz-space>
             <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
                     <button (click)="handleLogout()">
