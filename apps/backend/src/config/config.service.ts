@@ -12,7 +12,6 @@ export class ConfigService {
 
   readonly NODE_ENV = this.envsService.get('NODE_ENV');
 
-  readonly JWT_EXPIRATION = this.envsService.get('JWT_EXPIRATION');
   readonly JWT_SECRET = this.envsService.get('JWT_SECRET');
   readonly REFRESH_TOKEN_JWT_SECRET = this.envsService.get('REFRESH_TOKEN_JWT_SECRET');
   readonly FORGOT_PASSWORD_JWT_SECRET = this.envsService.get('FORGOT_PASSWORD_JWT_SECRET');
