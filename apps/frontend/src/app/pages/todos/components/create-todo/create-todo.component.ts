@@ -4,6 +4,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+
 import { Store } from '@ngrx/store';
 import { TodosSelectors, Todo, TodosActions } from '../../../../store';
 import { AsyncPipe } from '@angular/common';
@@ -13,7 +15,7 @@ import { merge } from 'rxjs';
 @Component({
   selector: 'app-create-todo',
   standalone: true,
-  imports: [NzDrawerModule, NzButtonModule, ReactiveFormsModule, NzFormModule, NzButtonModule, NzInputModule, AsyncPipe],
+  imports: [NzDrawerModule, NzButtonModule, ReactiveFormsModule, NzFormModule, NzButtonModule, NzInputModule, NzIconModule, AsyncPipe],
   templateUrl: './create-todo.component.html',
 })
 export class CreateTodoComponent {

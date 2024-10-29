@@ -1,8 +1,9 @@
 <div>
-    <div class="flex items-center justify-between mb-5">
-        <input [(ngModel)]="search" class="w-80" nz-input placeholder="Search by title..." nzSize="large" />
+    <div class="flex items-center justify-between gap-2 mb-5">
+        <input [(ngModel)]="search" class="flex-1 sm:flex-none sm:w-64" nz-input placeholder="Search by title..."
+            nzSize="large" />
         <nz-space>
-            <nz-select [(ngModel)]="completed" *nzSpaceItem nzSize="large" class="w-32">
+            <nz-select [(ngModel)]="completed" *nzSpaceItem nzSize="large" class="w-20 sm:w-32">
                 <nz-option nzValue="all" nzLabel="All"></nz-option>
                 <nz-option nzValue="true" nzLabel="Completed"></nz-option>
                 <nz-option nzValue="false" nzLabel="Pending"></nz-option>
@@ -10,10 +11,11 @@
             <app-create-todo *nzSpaceItem />
         </nz-space>
     </div>
-    <nz-table class="truncate" #basicTable [nzData]="(todos$ | async) ?? []" [nzLoading]="(todosActionsState$ | async)?.loading"
-        [nzFrontPagination]="false" [nzTotal]="(todosMeta$ | async)?.total || 0"
-        [nzPageSize]="(todosMeta$ | async)?.limit || 0" [nzPageIndex]="(todosMeta$ | async)?.page || 0"
-        (nzQueryParams)="onQueryParamsChange($event)" [nzScroll]="{ x: 'true' }">
+    <nz-table class="truncate" #basicTable [nzData]="(todos$ | async) ?? []"
+        [nzLoading]="(todosActionsState$ | async)?.loading" [nzFrontPagination]="false"
+        [nzTotal]="(todosMeta$ | async)?.total || 0" [nzPageSize]="(todosMeta$ | async)?.limit || 0"
+        [nzPageIndex]="(todosMeta$ | async)?.page || 0" (nzQueryParams)="onQueryParamsChange($event)"
+        [nzScroll]="{ x: 'true' }">
         <thead>
             <tr>
                 <th nzWidth="50px"></th>

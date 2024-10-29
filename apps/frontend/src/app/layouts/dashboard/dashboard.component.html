@@ -1,6 +1,6 @@
 <nz-layout class="h-full">
 
-    <nz-sider nzBreakpoint="md" [nzCollapsedWidth]="0" [nzCollapsed]="collapsed" (nzCollapsedChange)="collapsedChange()"
+    <nz-sider class="border-r" nzBreakpoint="md" [nzCollapsedWidth]="0" [nzCollapsed]="collapsed" (nzCollapsedChange)="collapsedChange()"
         nzTheme="light" [nzWidth]="250">
         <nz-header class="flex items-center px-6 mb-5 bg-transparent">
             <img src="images/logo.svg" alt="logo" class="h-8 invert" />
@@ -16,7 +16,7 @@
     </nz-sider>
 
     <nz-layout>
-        <nz-header class="flex items-center justify-between bg-transparent">
+        <nz-header class="flex items-center justify-between px-2 bg-white border-b md:px-8 ">
             <button nz-button nzType="text" (click)="collapsedChange()" class="block md:hidden">
                 <span nz-icon [nzType]="collapsed?'menu':'close'"></span>
             </button>
@@ -39,7 +39,7 @@
             </nz-dropdown-menu>
         </nz-header>
 
-        <nz-content class="px-10 py-5 overflow-y-auto">
+        <nz-content class="px-2 py-5 overflow-y-auto md:px-8">
             <router-outlet></router-outlet>
         </nz-content>
     </nz-layout>

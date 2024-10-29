@@ -1,4 +1,7 @@
-<button nz-button nzType="primary" nzShape="round" (click)="open()" nzSize="large">New</button>
+<button nz-button nzType="primary" class="fixed z-10 flex items-center justify-center rounded-full shadow-2xl w-14 md:shadow-none h-14 md:h-fit md:w-fit bottom-5 right-5 md:static" (click)="open()" nzSize="large">
+    <span nz-icon nzType="plus"></span>
+    <span class="hidden md:inline-block">New</span>
+</button>
 <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Create Todo" (nzOnClose)="close()"
     nzWidth="500px">
     <ng-container *nzDrawerContent>
