@@ -11,15 +11,21 @@ import * as fromTodos from './store/todos/todos.reducer';
 import { TodosEffects } from './store/todos/todos.effects';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
+import en from '@angular/common/locales/en';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideStore({ auth: fromAuth.authReducer,todos: fromTodos.todosReducer }),
+    provideStore({ auth: fromAuth.authReducer, todos: fromTodos.todosReducer }),
     provideEffects([AuthEffects, TodosEffects]),
     provideStoreDevtools(),
     provideClientHydration(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
+    provideNzI18n(en_US),
     provideAnimationsAsync(),
     provideHttpClient()
   ],
