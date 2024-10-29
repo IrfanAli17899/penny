@@ -79,7 +79,7 @@ jobs:
         run: |
           declare -A ENV_VARS=(
             [frontend]="API_BASE_URL=${{ secrets.API_BASE_URL }}"
-            [backend]="MONGOOS_URL=${{ secrets.MONGOOS_URL }},JWT_SECRET=${{ secrets.JWT_SECRET }},FORGOT_PASSWORD_JWT_SECRET=${{ secrets.FORGOT_PASSWORD_JWT_SECRET }},REFRESH_TOKEN_JWT_SECRET=${{ secrets.REFRESH_TOKEN_JWT_SECRET }},FRONTEND_BASE_URL=${{ secrets.FRONTEND_BASE_URL }},SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_PORT=${{ secrets.SMTP_PORT }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }}"
+            [backend]="MONGOOS_URL=${{ secrets.MONGOOSE_URI }},JWT_SECRET=${{ secrets.JWT_SECRET }},FORGOT_PASSWORD_JWT_SECRET=${{ secrets.FORGOT_PASSWORD_JWT_SECRET }},REFRESH_TOKEN_JWT_SECRET=${{ secrets.REFRESH_TOKEN_JWT_SECRET }},FRONTEND_BASE_URL=${{ secrets.FRONTEND_BASE_URL }},SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_PORT=${{ secrets.SMTP_PORT }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }}"
           )
 
           IFS=',' read -ra apps <<< "${{ env.PROJECTS_TO_BUILD }}"
