@@ -66,15 +66,10 @@ jobs:
 
       # Lint, test, and build affected applications
       # - run: npx nx affected -t lint test build
-      - name: Build Projects & Docker Images
-        if: env.PROJECTS_TO_BUILD != ''
-        run: |
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          npx nx run-many -t build -p "${{ env.PROJECTS_TO_BUILD }}" --parallel --exclude=cdk,api --maxParallel=5
+          
+      - name: Build, Push, and Deploy Docker Images
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
-
-      - name: Build, Push, and Deploy Docker Images
         if: env.PROJECTS_TO_BUILD != ''
         run: |
           declare -A ENV_VARS=(
@@ -82,14 +77,7 @@ jobs:
             [backend]="MONGOOSE_URI=${{ secrets.MONGOOSE_URI }},JWT_SECRET=${{ secrets.JWT_SECRET }},FORGOT_PASSWORD_JWT_SECRET=${{ secrets.FORGOT_PASSWORD_JWT_SECRET }},REFRESH_TOKEN_JWT_SECRET=${{ secrets.REFRESH_TOKEN_JWT_SECRET }},FRONTEND_BASE_URL=${{ secrets.FRONTEND_BASE_URL }},SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_PORT=${{ secrets.SMTP_PORT }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }}"
           )
 
-          IFS=',' read -ra apps <<< "${{ env.PROJECTS_TO_BUILD }}"
-          for app in "${apps[@]}"; do
-              app_name="${{ secrets.APP_NAME }}-${{ github.ref_name }}-$app"
-              image="gcr.io/${{ secrets.PROJECT_ID }}/${app_name}:latest"
-              echo "Building Docker image for $app..."
-              docker build -t $image --build-arg APP=$app -f apps/$app/Dockerfile .
-              docker push $image
-
-              echo "Deploying $app to Cloud Run..."
-              gcloud run deploy "$app_name-service" --image $image --region=${{ secrets.REGION }} --quiet --set-env-vars="${ENV_VARS[$app]}"
-          done
+          npx nx run-many -t gcp-deploy -p "${{ env.PROJECTS_TO_BUILD }}" \
+          --appName="${{ secrets.APP_NAME }}" --environment="${{ github.ref_name }}" --projectId="${{ secrets.PROJECT_ID }}" \
+          --region="${{ secrets.REGION }}" --envVars="$ENV_VARS"
+           --parallel --maxParallel=5

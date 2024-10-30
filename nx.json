@@ -60,6 +60,15 @@
     },
     "server": {
       "cache": true
+    },
+    "gcp-deploy":{
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "commands":[
+          "bash ./scripts/gcp-deploy.sh {args.appName} {args.environment} {projectName} {args.projectId} {projectRoot} {args.region} \"{args.envVars}\""
+        ]
+      }
     }
   },
   "generators": {

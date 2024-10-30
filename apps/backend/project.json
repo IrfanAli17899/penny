@@ -5,6 +5,7 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "gcp-deploy":{},
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",

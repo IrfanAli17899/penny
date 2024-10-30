@@ -6,6 +6,7 @@
   "sourceRoot": "apps/frontend/src",
   "tags": [],
   "targets": {
+    "gcp-deploy":{},
     "build": {
       "executor": "@nx/angular:browser-esbuild",
       "outputs": [
